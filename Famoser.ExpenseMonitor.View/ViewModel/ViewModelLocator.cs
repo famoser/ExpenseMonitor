@@ -35,7 +35,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<IDataService, DataService>();
             SimpleIoc.Default.Register<IProgressService, ProgressService>();
-            SimpleIoc.Default.Register<INoteRepository, NoteRepository>();
+            SimpleIoc.Default.Register<IExpenseRepository, ExpenseRepository>();
 
             ////if (ViewModelBase.IsInDesignModeStatic)
             ////{
@@ -49,7 +49,6 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<ConnectViewModel>(); 
             SimpleIoc.Default.Register<ProgressViewModel>();
         }
 
@@ -58,14 +57,6 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-
-        public ConnectViewModel ConnectViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<ConnectViewModel>();
             }
         }
 

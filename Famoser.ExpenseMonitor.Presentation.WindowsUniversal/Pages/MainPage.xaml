@@ -10,7 +10,7 @@
     DataContext="{Binding MainViewModel, Source={StaticResource Locator}}" Loaded="Page_Loaded">
 
     <Page.Resources>
-        <ControlTemplate x:Key="EditNoteButtonTemplate" TargetType="Button">
+        <ControlTemplate x:Key="EditExpenseButtonTemplate" TargetType="Button">
             <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">
@@ -71,10 +71,10 @@
         <SplitView.Pane>
             <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled">
                 <StackPanel>
-                    <mainPage:NoteCollectionList DataContext="{Binding }" TabIndex="0"/>
+                    <mainPage:ExpenseCollectionList DataContext="{Binding }" TabIndex="0"/>
                     <Grid Height="52" Margin="0,1,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <TextBox x:Name="AddNewNoteCollectionTextBox" Style="{StaticResource AddNewNoteTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewNoteCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewNoteButton}" BorderThickness="0" Command="{Binding AddNoteCollectionCommand}" TabIndex="1" >
+                        <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
+                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="1" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Add" />
                             </Button.Content>
@@ -89,16 +89,16 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Margin="0,53,0,0">
-            <ScrollViewer x:Name="NoteCollectionsOverview" Grid.Column="0" Style="{StaticResource AccentAlwaysScrollViewer}" Visibility="Collapsed">
+            <ScrollViewer x:Name="ExpenseCollectionsOverview" Grid.Column="0" Style="{StaticResource AccentAlwaysScrollViewer}" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <mainPage:NoteCollectionsOverview Grid.Row="0"  />
+                    <mainPage:ExpenseCollectionsOverview Grid.Row="0"  />
                     <Grid Height="52" Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <TextBox x:Name="AddNewNoteCollectionTextBox" Style="{StaticResource AddNewNoteTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewNoteCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewNoteButton}" BorderThickness="0" Command="{Binding AddNoteCollectionCommand}" TabIndex="1" >
+                        <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
+                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="1" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Add" />
                             </Button.Content>
@@ -106,7 +106,7 @@
                     </Grid>
                 </Grid>
             </ScrollViewer>
-            <ScrollViewer x:Name="ActiveNoteCollection" Grid.Column="0" Style="{StaticResource AlwaysScrollViewer}">
+            <ScrollViewer x:Name="ActiveExpenseCollection" Grid.Column="0" Style="{StaticResource AlwaysScrollViewer}">
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -114,7 +114,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding ActiveCollection.Name}" Style="{ThemeResource HeaderTextBlock}" />
-                        <Button Grid.Column="1" Style="{StaticResource EditNoteCollectionButton}" Template="{StaticResource EditNoteButtonTemplate}" Tapped="EditCollectionButton_Tapped" >
+                        <Button Grid.Column="1" Style="{StaticResource EditExpenseCollectionButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="EditCollectionButton_Tapped" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Edit" />
                             </Button.Content>
@@ -126,28 +126,26 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Background="{ThemeResource DisApprooveRed}" Style="{StaticResource AddNewNoteButton}" Template="{StaticResource EditNoteButtonTemplate}" Tapped="Button_Tapped" >
+                        <Button Grid.Column="0" Background="{ThemeResource DisApprooveRed}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="Button_Tapped" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Delete" />
                             </Button.Content>
                         </Button>
-                        <TextBox TabIndex="0" Grid.Column="1" Text="{Binding ActiveCollection.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewNoteTextBox}" />
-                        <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewNoteButton}" Template="{StaticResource EditNoteButtonTemplate}" Command="{Binding SaveNoteCollectionCommand}" CommandParameter="{Binding ActiveCollection}">
+                        <TextBox TabIndex="0" Grid.Column="1" Text="{Binding ActiveCollection.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewExpenseTextBox}" />
+                        <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Command="{Binding SaveExpenseCollectionCommand}" CommandParameter="{Binding ActiveCollection}">
                             <Button.Content>
                                 <SymbolIcon Symbol="Save" />
                             </Button.Content>
                         </Button>
                     </Grid>
 
-                    <mainPage:NoteList DataContext="{Binding ActiveCollection.NewNotes}" />
-                    <TextBlock Text="on hold" Style="{ThemeResource SubHeaderTextBlock}" Visibility="{Binding ActiveCollection.CompletedNotes.Count, Converter={StaticResource IntToVisibilityConverter}}"/>
-                    <mainPage:NoteList DataContext="{Binding ActiveCollection.CompletedNotes}" />
+                    <mainPage:ExpenseList DataContext="{Binding ActiveCollection.Expenses}" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>
         <Grid Height="52.5" VerticalAlignment="Top" >
-            <TextBox x:Name="AddNewNoteTextBox"  Style="{StaticResource AddNewNoteTextBox}" PlaceholderText="neue Notiz..." Text="{Binding NewNote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-            <Button Style="{StaticResource AddNewNoteButton}" Command="{Binding AddNoteCommand}" TabIndex="1">
+            <TextBox x:Name="AddNewExpenseTextBox"  Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Notiz..." Text="{Binding NewExpense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
+            <Button Style="{StaticResource AddNewExpenseButton}" Command="{Binding AddExpenseCommand}" TabIndex="1">
                 <Button.Content>
                     <SymbolIcon Symbol="Add" />
                 </Button.Content>
@@ -155,8 +153,8 @@
         </Grid>
         <userControls:ProgressUserControl VerticalAlignment="Top" />
         <!--<Grid VerticalAlignment="Bottom" MaxHeight="{Binding HeightOfDevice, Source={StaticResource ResolutionHelper}}" Margin="0,50,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="1">
-            <ScrollViewer Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="NoteCollectionScrollViewer" Height="{Binding ElementName=NoteCollectionList, Path=ActualHeight}" VerticalAlignment="Bottom">
-                <mainPage:NoteCollectionList Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="NoteCollectionList" DataContext="{Binding NoteCollections}" />
+            <ScrollViewer Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="ExpenseCollectionScrollViewer" Height="{Binding ElementName=ExpenseCollectionList, Path=ActualHeight}" VerticalAlignment="Bottom">
+                <mainPage:ExpenseCollectionList Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="ExpenseCollectionList" DataContext="{Binding ExpenseCollections}" />
             </ScrollViewer>
         </Grid>-->
 
@@ -177,10 +175,10 @@
                 <!--<AppBarButton Icon="Link" Command="{Binding ConnectCommand}" Content="Connect" />-->
                 <!--<AppBarButton IsCompact="True" Icon="Add" Label="Add List" >
                     <AppBarButton.Flyout>
-                        <Flyout x:Name="AddNoteCollectionFlyout" Placement="Bottom">
+                        <Flyout x:Name="AddExpenseCollectionFlyout" Placement="Bottom">
                             <StackPanel>
-                                <TextBox MinWidth="300" BorderThickness="1" Text="{Binding NewNoteCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewNoteTextBox}" />
-                                <Button Content="Speichern" Style="{ThemeResource TextButton}" Command="{Binding AddNoteCollectionCommand}" Tapped="UIElement_OnTapped" />
+                                <TextBox MinWidth="300" BorderThickness="1" Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewExpenseTextBox}" />
+                                <Button Content="Speichern" Style="{ThemeResource TextButton}" Command="{Binding AddExpenseCollectionCommand}" Tapped="UIElement_OnTapped" />
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>

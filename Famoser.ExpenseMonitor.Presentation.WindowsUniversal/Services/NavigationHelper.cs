@@ -11,7 +11,6 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
             var navigationService = new CustomNavigationService();
 
             navigationService.Implementation.Configure(PageKeys.MainPage.ToString(), typeof(MainPage));
-            navigationService.Implementation.Configure(PageKeys.ConnectPage.ToString(), typeof(ConnectPage));
 
             return navigationService;
         }

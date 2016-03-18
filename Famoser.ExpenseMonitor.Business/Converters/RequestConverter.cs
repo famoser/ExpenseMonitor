@@ -11,47 +11,47 @@ namespace Famoser.ExpenseMonitor.Business.Converters
 {
     public class RequestConverter : SingletonBase<RequestConverter>
     {
-        public NoteRequest ConvertToNoteRequest(Guid userGuid, Guid collectionGuid, PossibleActions action, IEnumerable<NoteModel> notes)
+        public ExpenseRequest ConvertToNoteRequest(Guid userGuid, Guid collectionGuid, PossibleActions action, IEnumerable<ExpenseModel> notes)
         {
-            return new NoteRequest(action,userGuid)
+            return new ExpenseRequest(action,userGuid)
             {
                 Notes = ConvertAllToNoteEntity(notes),
                 NoteCollectionGuid = collectionGuid
             };
         }
 
-        private List<NoteEntity> ConvertAllToNoteEntity(IEnumerable<NoteModel> notes)
+        private List<ExpenseEntity> ConvertAllToNoteEntity(IEnumerable<ExpenseModel> notes)
         {
             return notes.Select(ConvertToNoteEntity).ToList();
         }
 
-        private NoteEntity ConvertToNoteEntity(NoteModel noteModel)
+        private ExpenseEntity ConvertToNoteEntity(ExpenseModel expenseModel)
         {
-            return new NoteEntity()
+            return new ExpenseEntity()
             {
-                 Guid = noteModel.Guid,
-                 Content = noteModel.Content,
-                 CreateTime = noteModel.CreateTime,
-                 IsCompletedBool = noteModel.IsCompleted
+                 Guid = expenseModel.Guid,
+                 Content = expenseModel.Description,
+                 CreateTime = expenseModel.CreateTime,
+                 Amount = expenseModel.Amount
             };
         }
 
-        public NoteCollectionRequest ConvertToNoteCollectionRequest(Guid userGuid, PossibleActions action, IEnumerable<NoteCollectionModel> collections)
+        public ExpenseCollectionRequest ConvertToNoteCollectionRequest(Guid userGuid, PossibleActions action, IEnumerable<ExpenseCollectionModel> collections)
         {
-            return new NoteCollectionRequest(action, userGuid)
+            return new ExpenseCollectionRequest(action, userGuid)
             {
                 NoteCollections = ConvertAllToNoteCollectionEntity(collections)
             };
         }
 
-        private List<NoteCollectionEntity> ConvertAllToNoteCollectionEntity(IEnumerable<NoteCollectionModel> collections)
+        private List<ExpenseCollectionEntity> ConvertAllToNoteCollectionEntity(IEnumerable<ExpenseCollectionModel> collections)
         {
             return collections.Select(ConvertToNoteCollectionEntity).ToList();
         }
 
-        private NoteCollectionEntity ConvertToNoteCollectionEntity(NoteCollectionModel collection)
+        private ExpenseCollectionEntity ConvertToNoteCollectionEntity(ExpenseCollectionModel collection)
         {
-            return new NoteCollectionEntity()
+            return new ExpenseCollectionEntity()
             {
                 Guid = collection.Guid,
                 Name = collection.Name,

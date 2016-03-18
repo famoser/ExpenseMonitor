@@ -80,14 +80,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
 
         public Task<string> GetCachedData()
         {
-            return ReadCache("data2.json");
-        }
-
-        public async Task<string> GetOldCachedData(int version)
-        {
-            if (version == 0)
-                return await ReadCache("data.json");
-            return "";
+            return ReadCache("data.json");
         }
 
         public Task<string> GetUserInformations()

@@ -1,22 +1,22 @@
-DROP TABLE Note;
-DROP TABLE NoteCollection;
-DROP TABLE NoteTakerListRelation;
-DROP TABLE NoteTaker;
+DROP TABLE Expense;
+DROP TABLE ExpenseCollection;
+DROP TABLE ExpenseTakerListRelation;
+DROP TABLE ExpenseTaker;
 
-CREATE TABLE NoteTakers
+CREATE TABLE ExpenseTakers
 (
 	Id INTEGER PRIMARY KEY AUTOINCREMENT,
 	Guid varchar(255)
 );
 
-CREATE TABLE NoteTakerNoteCollectionRelations
+CREATE TABLE ExpenseTakerExpenseCollectionRelations
 (
 	Id INTEGER PRIMARY KEY AUTOINCREMENT,
-	NoteTakerId int,
-	NoteCollectionId int
+	ExpenseTakerId int,
+	ExpenseCollectionId int
 );
 
-CREATE TABLE NoteCollections
+CREATE TABLE ExpenseCollections
 (
 	Id INTEGER PRIMARY KEY AUTOINCREMENT,
 	Guid varchar(255),
@@ -24,10 +24,10 @@ CREATE TABLE NoteCollections
 	CreateTime datetime
 );
 
-CREATE TABLE Notes
+CREATE TABLE Expenses
 (
 	Id INTEGER PRIMARY KEY AUTOINCREMENT,
-	NoteCollectionId int,
+	ExpenseCollectionId int,
 	Guid varchar(255),
 	Content text,
 	CreateTime datetime,

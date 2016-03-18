@@ -6,11 +6,11 @@ namespace Famoser.ExpenseMonitor.Business.Models
     {
         public DataModel()
         {
-            Collections = new ObservableCollection<NoteCollectionModel>();
-            DeletedCollections = new ObservableCollection<NoteCollectionModel>();
+            Collections = new ObservableCollection<ExpenseCollectionModel>();
+            DeletedCollections = new ObservableCollection<ExpenseCollectionModel>();
         }
 
-        public ObservableCollection<NoteCollectionModel> Collections { get; set; }
-        public ObservableCollection<NoteCollectionModel> DeletedCollections { get; set; }
+        public ObservableCollection<ExpenseCollectionModel> Collections { get; set; }
+        public ObservableCollection<ExpenseCollectionModel> DeletedCollections { get; set; }
     }
 }

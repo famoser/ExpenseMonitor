@@ -6,18 +6,15 @@
  * Time: 16:20
  */
 
-namespace famoser\rememberless\webpage\controllers;
+namespace famoser\expensemonitor\webpage\controllers;
 
 
-use famoser\rememberless\webpage\core\interfaces\iController;
-use function famoser\rememberless\webpage\core\responsehelper\ReturnBoolean;
-use function famoser\rememberless\webpage\core\responsehelper\ReturnError;
-use function famoser\rememberless\webpage\core\responsehelper\ReturnJson;
-use function famoser\rememberless\webpage\core\validationhelper\ValidateGuid;
-use famoser\rememberless\webpage\models\communication\GuidResponse;
-use famoser\rememberless\webpage\models\communication\UserConnectionResponse;
-use famoser\rememberless\webpage\models\entities\NoteTakerEntity;
-use famoser\rememberless\webpage\models\NoteTaker;
+use famoser\expensemonitor\webpage\core\interfaces\iController;
+use function famoser\expensemonitor\webpage\core\responsehelper\ReturnBoolean;
+use function famoser\expensemonitor\webpage\core\responsehelper\ReturnError;
+use function famoser\expensemonitor\webpage\core\responsehelper\ReturnJson;
+use function famoser\expensemonitor\webpage\core\validationhelper\ValidateGuid;
+use famoser\expensemonitor\webpage\models\ExpenseTaker;
 use PDO;
 
 class UserConnectionController implements iController
@@ -40,7 +37,7 @@ class UserConnectionController implements iController
                     foreach ($obj->UserConnections as $userConnection) {
                         $existingUserConnection = GetSingleByCondition("UserConnections", array("Guid" => $userConnection->Guid));
                         if ($existingUserConnection == null) {
-                            $newuserconnection = new NoteTaker();
+                            $newuserconnection = new ExpenseTaker();
                             $newuserconnection->Guid = $userConnection->Guid;
                             $newuserconnection->Color = $userConnection->Color;
                             $newuserconnection->Name = $userConnection->Name;
@@ -56,7 +53,7 @@ class UserConnectionController implements iController
                     foreach ($obj->UserConnections as $userConnection) {
                         $existingUserConnection = GetSingleByCondition("UserConnections", array("Guid" => $userConnection->Guid));
                         if ($existingUserConnection == null) {
-                            $newuserconnection = new NoteTaker();
+                            $newuserconnection = new ExpenseTaker();
                             $newuserconnection->Guid = $userConnection->Guid;
                             $newuserconnection->Color = $userConnection->Color;
                             $newuserconnection->Name = $userConnection->Name;
@@ -102,7 +99,7 @@ class UserConnectionController implements iController
                 $userConnections = GetAllByCondition("UserConnections", array("UserGuid" => $param[0]), "Name DESC");
                 $resp = new UserConnectionResponse();
                 foreach ($userConnections as $userConnection) {
-                    $resp->UserConnections[] = new NoteTakerEntity($userConnection);
+                    $resp->UserConnections[] = new ExpenseTakerEntity($userConnection);
                 }
                 return ReturnJson($resp);
             }
@@ -123,7 +120,7 @@ class UserConnectionController implements iController
     private function checkForUniqueGuid($guid)
     {
         $db = GetDatabaseConnection();
-        $pdo = $db->prepare("SELECT COUNT(*) FROM Notes WHERE UserGuid LIKE :Id GROUP BY UserGuid");
+        $pdo = $db->prepare("SELECT COUNT(*) FROM Expenses WHERE UserGuid LIKE :Id GROUP BY UserGuid");
         $pdo->bindValue(":Id", $guid . "%");
         $pdo->execute();
 
@@ -136,7 +133,7 @@ class UserConnectionController implements iController
     private function getUniqueGuid($guid)
     {
         $db = GetDatabaseConnection();
-        $pdo = $db->prepare("SELECT * FROM Notes WHERE UserGuid LIKE :Id GROUP BY UserGuid");
+        $pdo = $db->prepare("SELECT * FROM Expenses WHERE UserGuid LIKE :Id GROUP BY UserGuid");
 
         $pdo->bindValue(":Id", $guid . "%");
         $pdo->execute();

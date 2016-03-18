@@ -6,7 +6,7 @@
  * Time: 15:14
  */
 
-namespace famoser\rememberless\webpage\core\logging;
+namespace famoser\expensemonitor\webpage\core\logging;
 
 
 class logitem

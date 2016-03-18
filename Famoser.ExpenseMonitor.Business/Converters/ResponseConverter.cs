@@ -6,27 +6,27 @@ namespace Famoser.ExpenseMonitor.Business.Converters
 {
     public class ResponseConverter : SingletonBase<ResponseConverter>
     {
-        public NoteModel Convert(NoteEntity note)
+        public ExpenseModel Convert(ExpenseEntity expense)
         {
-            return new NoteModel()
+            return new ExpenseModel()
             {
-                Guid = note.Guid,
-                Content = note.Content,
-                CreateTime = note.CreateTime,
-                IsCompleted = note.IsCompletedBool
+                Guid = expense.Guid,
+                Description = expense.Content,
+                CreateTime = expense.CreateTime,
+                Amount = expense.Amount
             };
         }
 
-        public void WriteValues(NoteEntity note, NoteModel model)
+        public void WriteValues(ExpenseEntity expense, ExpenseModel model)
         {
-            model.IsCompleted = note.IsCompletedBool;
-            model.Content = note.Content;
-            model.CreateTime = note.CreateTime;
+            model.Amount = expense.Amount;
+            model.Description = expense.Content;
+            model.CreateTime = expense.CreateTime;
         }
 
-        public NoteCollectionModel Convert(NoteCollectionEntity entity)
+        public ExpenseCollectionModel Convert(ExpenseCollectionEntity entity)
         {
-            return new NoteCollectionModel()
+            return new ExpenseCollectionModel()
             {
                 Guid = entity.Guid,
                 Name = entity.Name,
@@ -34,10 +34,10 @@ namespace Famoser.ExpenseMonitor.Business.Converters
             };
         }
 
-        public void WriteValues(NoteCollectionEntity note, NoteCollectionModel model)
+        public void WriteValues(ExpenseCollectionEntity expense, ExpenseCollectionModel model)
         {
-            model.Name = note.Name;
-            model.CreateTime = note.CreateTime;
+            model.Name = expense.Name;
+            model.CreateTime = expense.CreateTime;
         }
     }
 }

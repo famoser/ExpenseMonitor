@@ -6,7 +6,7 @@
  * Time: 14:45
  */
 
-namespace famoser\rememberless\webpage\core\interfaces;
+namespace famoser\expensemonitor\webpage\core\interfaces;
 
 
 interface iController

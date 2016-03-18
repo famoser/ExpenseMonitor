@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Windows.UI.Notifications;
 using Famoser.ExpenseMonitor.View.Enums;
 using Famoser.ExpenseMonitor.View.ViewModel;
@@ -17,12 +18,12 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
 
         private void EvaluateMessages(Messages obj)
         {
-            if (obj == Messages.NotesChanged)
+            if (obj == Messages.ExpenseChanged)
             {
                 var vm = SimpleIoc.Default.GetInstance<MainViewModel>();
-                if (vm != null && vm.NoteCollections != null)
+                if (vm != null && vm.ExpenseCollections != null)
                 {
-                    var newNotes =vm.NoteCollections.SelectMany(noteCollectionModel => noteCollectionModel.NewNotes).ToList();
+                    var newNotes =vm.ExpenseCollections.SelectMany(noteCollectionModel => noteCollectionModel.Expenses).ToList();
                     var adap2 = new TileBindingContentAdaptive()
                     {
                         Children =
@@ -30,21 +31,22 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
                             new TileText()
                             {
                                 Style = TileTextStyle.Title,
-                                Text = newNotes.Count + " pending"
+                                Text = newNotes.Sum(n => n.Amount).ToString("0.##") + " total spent"
                             },
                             // For spacing
                             new TileText()
+                            {
+                                Style = TileTextStyle.Title,
+                                Text = newNotes.Where(n => n.CreateTime > DateTime.Now.Subtract(TimeSpan.FromDays(7))).Sum(n => n.Amount).ToString("0.##") + " spent last 7 days"
+                            },
+                            // For spacing
+                            new TileText()
+                            {
+                                Style = TileTextStyle.Title,
+                                Text = newNotes.Where(n => n.CreateTime > DateTime.Now.Subtract(DateTime.Now - DateTime.Today)).Sum(n => n.Amount).ToString("0.##") + " spent today"
+                            },
                         }
                     };
-
-                    foreach (var noteModel in newNotes)
-                    {
-                        adap2.Children.Add(new TileText()
-                        {
-                            Style = TileTextStyle.BodySubtle,
-                            Text = noteModel.Content
-                        });
-                    }
 
                     var tileLarge = new TileBinding()
                     {

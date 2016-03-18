@@ -6,9 +6,9 @@
  * Time: 12:45
  */
 
-namespace famoser\rememberless\webpage\core\responsehelper;
+namespace famoser\expensemonitor\webpage\core\responsehelper;
 
-use famoser\rememberless\webpage\core\logging\logger;
+use famoser\expensemonitor\webpage\core\logging\logger;
 
 function ReturnError($error)
 {

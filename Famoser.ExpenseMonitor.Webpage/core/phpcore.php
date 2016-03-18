@@ -6,16 +6,16 @@
  * Time: 14:41
  */
 
-namespace famoser\rememberless\webpage\core\phpcore;
+namespace famoser\expensemonitor\webpage\core\phpcore;
 
-use famoser\rememberless\webpage\controllers\ApiController;
-use famoser\rememberless\webpage\controllers\NoteCollectionController;
-use famoser\rememberless\webpage\controllers\NoteController;
-use famoser\rememberless\webpage\controllers\NotesController;
-use famoser\rememberless\webpage\controllers\UserConnectionController;
-use function famoser\rememberless\webpage\core\fileshelper\include_all_files_in_dir;
-use famoser\rememberless\webpage\core\logging\logger;
-use famoser\rememberless\webpage\models\NoteCollection;
+use famoser\expensemonitor\webpage\controllers\ApiController;
+use famoser\expensemonitor\webpage\controllers\ExpenseCollectionController;
+use famoser\expensemonitor\webpage\controllers\ExpenseController;
+use famoser\expensemonitor\webpage\controllers\ExpensesController;
+use famoser\expensemonitor\webpage\controllers\UserConnectionController;
+use function famoser\expensemonitor\webpage\core\fileshelper\include_all_files_in_dir;
+use famoser\expensemonitor\webpage\core\logging\logger;
+use famoser\expensemonitor\webpage\models\ExpenseCollection;
 
 function hi_framework()
 {
@@ -61,10 +61,10 @@ function get_controller($params)
 {
     if (count($params) > 0)
     {
-        if ($params[0] == "notes")
-            return new NoteController();
-        if ($params[0] == "notecollections")
-            return new NoteCollectionController();
+        if ($params[0] == "expenses")
+            return new ExpenseController();
+        if ($params[0] == "expensecollections")
+            return new ExpenseCollectionController();
         if ($params[0] == "userconnection")
             return new UserConnectionController();
         else if ($params[0] == "api")
@@ -91,7 +91,7 @@ function configure_autoloader()
 spl_autoload_register(function ($class) {
 
     // project-specific namespace prefix
-    $prefix = 'famoser\\rememberless\\webpage\\';
+    $prefix = 'famoser\\expensemonitor\\webpage\\';
     $basedir = null;
     $relative_class = null;
 

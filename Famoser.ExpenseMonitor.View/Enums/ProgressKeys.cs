@@ -4,6 +4,6 @@
     {
         InDebugMode,
         InitializingApplication,
-        SyncingNotes
+        SyncingExpenses
     }
 }

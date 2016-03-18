@@ -29,7 +29,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
                         ev.Handled = true;
                         EditCollectionGrid.Visibility = Visibility.Collapsed;
                     }
-                    else if (NoteCollectionsOverview.Visibility == Visibility.Visible)
+                    else if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
                     {
                         ev.Handled = true;
                         UIElement_OnTapped();
@@ -40,7 +40,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
 
         private MainViewModel ViewModel => DataContext as MainViewModel;
 
-        private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             if (ViewModel.RefreshCommand.CanExecute(null))
                 ViewModel.RefreshCommand.Execute(null);
@@ -51,7 +51,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
         {
             if (propertyChangedEventArgs.PropertyName == "ActiveCollection")
             {
-                if (NoteCollectionsOverview.Visibility == Visibility.Visible)
+                if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
                     UIElement_OnTapped(null, null);
             }
         }
@@ -62,15 +62,15 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
             {
                 var vm = DataContext as MainViewModel;
                 var tb = sender as TextBox;
-                if (tb == AddNewNoteCollectionTextBox)
+                if (tb == AddNewExpenseCollectionTextBox)
                 {
-                    if (vm?.AddNoteCollectionCommand.CanExecute(null) == true)
-                        vm.AddNoteCollectionCommand.Execute(null);
+                    if (vm?.AddExpenseCollectionCommand.CanExecute(null) == true)
+                        vm.AddExpenseCollectionCommand.Execute(null);
                 }
-                else if (tb == AddNewNoteTextBox)
+                else if (tb == AddNewExpenseTextBox)
                 {
-                    if (vm?.AddNoteCommand.CanExecute(null) == true)
-                        vm.AddNoteCommand.Execute(null);
+                    if (vm?.AddExpenseCommand.CanExecute(null) == true)
+                        vm.AddExpenseCommand.Execute(null);
                 }
             }
         }
@@ -86,8 +86,8 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
             dialog.Commands.Add(new UICommand("abbrechen"));
             dialog.Commands.Add(new UICommand("löschen", command =>
             {
-                if (ViewModel.RemoveNoteCollectionCommand.CanExecute(ViewModel.ActiveCollection))
-                    ViewModel.RemoveNoteCollectionCommand.Execute(ViewModel.ActiveCollection);
+                if (ViewModel.RemoveExpenseCollectionCommand.CanExecute(ViewModel.ActiveCollection))
+                    ViewModel.RemoveExpenseCollectionCommand.Execute(ViewModel.ActiveCollection);
                 EditCollectionGrid.Visibility = Visibility.Collapsed;
             }));
             dialog.CancelCommandIndex = 0;
@@ -103,15 +103,15 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
 
         private void UIElement_OnTapped(object sender = null, TappedRoutedEventArgs e = null)
         {
-            if (NoteCollectionsOverview.Visibility == Visibility.Visible)
+            if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
             {
-                NoteCollectionsOverview.Visibility = Visibility.Collapsed;
-                ActiveNoteCollection.Visibility = Visibility.Visible;
+                ExpenseCollectionsOverview.Visibility = Visibility.Collapsed;
+                ActiveExpenseCollection.Visibility = Visibility.Visible;
             }
             else
             {
-                NoteCollectionsOverview.Visibility = Visibility.Visible;
-                ActiveNoteCollection.Visibility = Visibility.Collapsed;
+                ExpenseCollectionsOverview.Visibility = Visibility.Visible;
+                ActiveExpenseCollection.Visibility = Visibility.Collapsed;
             }
         }
     }

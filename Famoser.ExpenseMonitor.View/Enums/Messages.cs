@@ -2,7 +2,7 @@
 {
     public enum Messages
     {
-        NotesChanged,
+        ExpenseChanged,
         QrCodeScanned,
         Select
     }

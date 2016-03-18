@@ -2,7 +2,6 @@
 {
     public enum PageKeys
     {
-        MainPage,
-        ConnectPage
+        MainPage
     }
 }

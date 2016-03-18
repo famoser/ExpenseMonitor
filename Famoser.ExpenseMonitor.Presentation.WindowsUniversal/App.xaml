@@ -44,8 +44,8 @@
             </Style>
 
             <viewModels:ViewModelLocator x:Key="Locator" />
-            
-            <Style x:Key="AddNewNoteTextBox" TargetType="TextBox">
+
+            <Style x:Key="AddNewExpenseTextBox" TargetType="TextBox">
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="Segoe UI" />
@@ -53,8 +53,8 @@
                 <Setter Property="BorderThickness" Value="0,1,0,1" />
                 <Setter Property="Padding" Value="12" />
             </Style>
-            
-            <Style x:Key="AddNewNoteButton" TargetType="Button">
+
+            <Style x:Key="AddNewExpenseButton" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
@@ -62,7 +62,7 @@
             </Style>
 
 
-            <Style x:Key="NoteTexBlock" TargetType="TextBlock">
+            <Style x:Key="ExpenseTexBlock" TargetType="TextBlock">
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="Segoe UI" />
@@ -71,7 +71,7 @@
                 <Setter Property="Padding" Value="10" />
             </Style>
 
-            <Style x:Key="EditNoteButton" TargetType="Button">
+            <Style x:Key="EditExpenseButton" TargetType="Button">
                 <Setter Property="Padding" Value="12" />
                 <Setter Property="Background" Value="Transparent" />
             </Style>
@@ -100,7 +100,7 @@
                 <Setter Property="FontWeight" Value="SemiLight" />
             </Style>
 
-            <Style x:Key="EditNoteCollectionButton" TargetType="Button">
+            <Style x:Key="EditExpenseCollectionButton" TargetType="Button">
                 <Setter Property="Padding" Value="12" />
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="{ThemeResource TextForeground}" />
@@ -133,7 +133,7 @@
             </Style>
 
             <Style x:Key="AccentBackgroundStretchListView" TargetType="ListView">
-                
+
             </Style>
 
             <Style x:Key="AlwaysScrollViewer" TargetType="ScrollViewer">
@@ -149,28 +149,20 @@
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
             </Style>
 
-            <mainPage:SymbolConverter x:Key="SymbolConverter" />
-            <mainPage:ColorConverter x:Key="ColorConverter" />
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
             <helpers:ResolutionHelper x:Key="ResolutionHelper" />
+            <mainPage:DoubleToCurrencyConverter x:Key="DoubleToCurrencyConverter" />
 
 
-            <DataTemplate x:Name="NoteTemplate">
+            <DataTemplate x:Name="ExpenseTemplate">
                 <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Style="{StaticResource NoteTexBlock}" Text="{Binding Content}" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-
-                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <Button Style="{StaticResource EditNoteButton}" Grid.Column="1" Foreground="{Binding Converter={StaticResource ColorConverter}}" Command="{Binding MainViewModel.ToggleCompletedCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
-                        <Button.Content>
-                            <SymbolIcon Symbol="{Binding Converter={StaticResource SymbolConverter}}" />
-                        </Button.Content>
-                    </Button>
-                    <Button Style="{StaticResource EditNoteButton}" Grid.Column="2" Foreground="{ThemeResource DisApprooveRed}" Command="{Binding MainViewModel.RemoveNoteCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
+                    <TextBlock Grid.Column="0" Style="{StaticResource ExpenseTexBlock}" Text="{Binding Amount, Converter={StaticResource DoubleToCurrencyConverter}}" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Button Style="{StaticResource EditExpenseButton}" Grid.Column="1" Foreground="{ThemeResource DisApprooveRed}" Command="{Binding MainViewModel.RemoveExpenseCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
                         <Button.Content>
                             <SymbolIcon Symbol="Clear" />
                         </Button.Content>
@@ -179,27 +171,24 @@
             </DataTemplate>
 
 
-            <DataTemplate x:Name="NoteCollectionTemplate">
+            <DataTemplate x:Name="ExpenseCollectionTemplate">
                 <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Style="{StaticResource NoteTexBlock}" Text="{Binding Name}" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" />
+                    <TextBlock Grid.Column="0" Style="{StaticResource ExpenseTexBlock}" Text="{Binding Name}" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" />
 
-                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <TextBlock Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding NewNotes.Count}" Foreground="{ThemeResource DisApprooveRed}" />
-                    <TextBlock Grid.Column="2" Style="{StaticResource CounterTextBlock}" Text="{Binding CompletedNotes.Count}" Foreground="{ThemeResource SomeApprooveOrange}" />
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <TextBlock Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding Expenses.Count}" />
                 </Grid>
             </DataTemplate>
 
 
-            <DataTemplate x:Name="NoteCollectionWithNewNotesTemplate">
+            <DataTemplate x:Name="ExpenseCollectionWithNewExpensesTemplate">
                 <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -207,9 +196,8 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="{Binding Name}" Grid.Column="0" Style="{ThemeResource SubHeaderTextBlock}" Padding="10,15,10,10" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding NewNotes.Count}" Foreground="{ThemeResource DisApprooveRed}" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource CounterTextBlock}" Text="{Binding CompletedNotes.Count}" Foreground="{ThemeResource SomeApprooveOrange}" />
-                    <mainPage1:NoteList Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" DataContext="{Binding NewNotes}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding Expenses.Count}" />
+                    <mainPage1:ExpenseList Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding NewExpenses}" />
                 </Grid>
             </DataTemplate>
 

@@ -27,42 +27,41 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private INoteRepository _noteRepository;
+        private IExpenseRepository _expenseRepository;
         private IProgressService _progressService;
         private INavigationService _navigationService;
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(INoteRepository noteRepository, IProgressService progressService, INavigationService navigationService)
+        public MainViewModel(IExpenseRepository expenseRepository, IProgressService progressService, INavigationService navigationService)
         {
-            _noteRepository = noteRepository;
+            _expenseRepository = expenseRepository;
             _progressService = progressService;
             _navigationService = navigationService;
 
             _refreshCommand = new RelayCommand(Refresh, () => CanRefresh);
-            _addNoteCommand = new RelayCommand(AddNote, () => CanAddNote);
-            _removeNote = new RelayCommand<NoteModel>(RemoveNote);
-            _toggleCompleted = new RelayCommand<NoteModel>(ToggleCompleted);
-            _connectCommand = new RelayCommand(Connect);
+            _addExpenseCommand = new RelayCommand(AddExpense, () => CanAddExpense);
+            _removeExpense = new RelayCommand<ExpenseModel>(RemoveExpense);
+            _save = new RelayCommand<ExpenseModel>(Save);
 
             if (IsInDesignMode)
             {
-                NoteCollections = noteRepository.GetExampleCollections();
-                ActiveCollection = NoteCollections[0];
+                ExpenseCollections = expenseRepository.GetExampleCollections();
+                ActiveCollection = ExpenseCollections[0];
             }
             else
             {
                 Initialize();
             }
-            _removeNoteCollection = new RelayCommand<NoteCollectionModel>(RemoveNoteCollection, CanRemoveNoteCollection);
-            _saveNoteCollection = new RelayCommand<NoteCollectionModel>(SaveNoteCollection, CanSaveNoteCollection);
-            _addNoteCollectionCommand = new RelayCommand(AddNoteCollection, () => CanAddNoteCollection);
+            _removeExpenseCollection = new RelayCommand<ExpenseCollectionModel>(RemoveExpenseCollection, CanRemoveExpenseCollection);
+            _saveExpenseCollection = new RelayCommand<ExpenseCollectionModel>(SaveExpenseCollection, CanSaveExpenseCollection);
+            _addExpenseCollectionCommand = new RelayCommand(AddExpenseCollection, () => CanAddExpenseCollection);
 
-            Messenger.Default.Register<NoteCollectionModel>(this, Messages.Select, EvaluateSelectMessage);
+            Messenger.Default.Register<ExpenseCollectionModel>(this, Messages.Select, EvaluateSelectMessage);
         }
 
-        private void EvaluateSelectMessage(NoteCollectionModel obj)
+        private void EvaluateSelectMessage(ExpenseCollectionModel obj)
         {
             ActiveCollection = obj;
         }
@@ -75,8 +74,8 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             _isInitializing = true;
             _refreshCommand.RaiseCanExecuteChanged();
 
-            NoteCollections = await _noteRepository.GetCollections();
-            ActiveCollection = NoteCollections[0];
+            ExpenseCollections = await _expenseRepository.GetCollections();
+            ActiveCollection = ExpenseCollections[0];
 
             _isInitializing = false;
             _refreshCommand.RaiseCanExecuteChanged();
@@ -84,18 +83,18 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         }
 
         private bool _isSyncing;
-        private async Task SyncNotes()
+        private async Task SyncExpenses()
         {
-            _progressService.ShowProgress(ProgressKeys.SyncingNotes);
+            _progressService.ShowProgress(ProgressKeys.SyncingExpenses);
             _isSyncing = true;
             _refreshCommand.RaiseCanExecuteChanged();
 
-            await _noteRepository.SyncNotes();
-            Messenger.Default.Send(Messages.NotesChanged);
+            await _expenseRepository.SyncExpenses();
+            Messenger.Default.Send(Messages.ExpenseChanged);
 
             _isSyncing = false;
             _refreshCommand.RaiseCanExecuteChanged();
-            _progressService.HideProgress(ProgressKeys.SyncingNotes);
+            _progressService.HideProgress(ProgressKeys.SyncingExpenses);
         }
 
         private readonly RelayCommand _refreshCommand;
@@ -105,139 +104,130 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
 
         private async void Refresh()
         {
-            await SyncNotes();
+            await SyncExpenses();
         }
 
-        private string _newNote;
-        public string NewNote
+        private string _newExpense;
+        public string NewExpense
         {
-            get { return _newNote; }
+            get { return _newExpense; }
             set
             {
-                if (Set(ref _newNote, value))
-                    _addNoteCommand.RaiseCanExecuteChanged();
+                if (Set(ref _newExpense, value))
+                    _addExpenseCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private string _newNoteCollection;
-        public string NewNoteCollection
+        private string _newExpenseCollection;
+        public string NewExpenseCollection
         {
-            get { return _newNoteCollection; }
+            get { return _newExpenseCollection; }
             set
             {
-                if (Set(ref _newNoteCollection, value))
-                    _addNoteCollectionCommand.RaiseCanExecuteChanged();
+                if (Set(ref _newExpenseCollection, value))
+                    _addExpenseCollectionCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private readonly RelayCommand _addNoteCommand;
-        public ICommand AddNoteCommand => _addNoteCommand;
+        private readonly RelayCommand _addExpenseCommand;
+        public ICommand AddExpenseCommand => _addExpenseCommand;
 
-        public bool CanAddNote => !string.IsNullOrEmpty(_newNote);
+        public bool CanAddExpense => !string.IsNullOrEmpty(_newExpense);
 
-        private async void AddNote()
+        private async void AddExpense()
         {
-            var newNote = new NoteModel()
+            var newExpense = new ExpenseModel()
             {
-                Content = NewNote,
+                Description = NewExpense,
                 Guid = Guid.NewGuid(),
                 CreateTime = DateTime.Now,
-                NoteCollection = ActiveCollection
+                ExpenseCollection = ActiveCollection
             };
-            NewNote = "";
-            await _noteRepository.Save(newNote);
-            Messenger.Default.Send(Messages.NotesChanged);
+            NewExpense = "";
+            await _expenseRepository.Save(newExpense);
+            Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
-        private readonly RelayCommand _addNoteCollectionCommand;
-        public ICommand AddNoteCollectionCommand => _addNoteCollectionCommand;
+        private readonly RelayCommand _addExpenseCollectionCommand;
+        public ICommand AddExpenseCollectionCommand => _addExpenseCollectionCommand;
 
-        public bool CanAddNoteCollection => !string.IsNullOrEmpty(NewNoteCollection);
+        public bool CanAddExpenseCollection => !string.IsNullOrEmpty(NewExpenseCollection);
 
-        private async void AddNoteCollection()
+        private async void AddExpenseCollection()
         {
-            var newNoteCollection = new NoteCollectionModel()
+            var newExpenseCollection = new ExpenseCollectionModel()
             {
                 Guid = Guid.NewGuid(),
-                Name = NewNoteCollection,
+                Name = NewExpenseCollection,
                 CreateTime = DateTime.Now
             };
-            NewNoteCollection = "";
-            await _noteRepository.Save(newNoteCollection);
-            ActiveCollection = newNoteCollection;
+            NewExpenseCollection = "";
+            await _expenseRepository.Save(newExpenseCollection);
+            ActiveCollection = newExpenseCollection;
         }
 
-        private readonly RelayCommand<NoteModel> _toggleCompleted;
-        public ICommand ToggleCompletedCommand { get { return _toggleCompleted; } }
+        private readonly RelayCommand<ExpenseModel> _save;
+        public ICommand SaveCommand { get { return _save; } }
 
-        private async void ToggleCompleted(NoteModel note)
+        private async void Save(ExpenseModel expense)
         {
-            note.IsCompleted = !note.IsCompleted;
-            await _noteRepository.Save(note);
-            Messenger.Default.Send(Messages.NotesChanged);
+            await _expenseRepository.Save(expense);
+            Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
-        private readonly RelayCommand _connectCommand;
-        public ICommand ConnectCommand => _connectCommand;
+        private readonly RelayCommand<ExpenseCollectionModel> _removeExpenseCollection;
+        public ICommand RemoveExpenseCollectionCommand => _removeExpenseCollection;
 
-        private void Connect()
+        public bool CanRemoveExpenseCollection(ExpenseCollectionModel model)
         {
-            _navigationService.NavigateTo(PageKeys.ConnectPage.ToString());
+            return ExpenseCollections.Count > 1;
         }
 
-        private readonly RelayCommand<NoteCollectionModel> _removeNoteCollection;
-        public ICommand RemoveNoteCollectionCommand => _removeNoteCollection;
-
-        public bool CanRemoveNoteCollection(NoteCollectionModel model)
-        {
-            return NoteCollections.Count > 1;
-        }
-
-        private async void RemoveNoteCollection(NoteCollectionModel model)
+        private async void RemoveExpenseCollection(ExpenseCollectionModel model)
         {
             if (model == ActiveCollection)
             {
-                var index = NoteCollections.IndexOf(ActiveCollection);
+                var index = ExpenseCollections.IndexOf(ActiveCollection);
                 if (index == 0)
-                    ActiveCollection = NoteCollections[1];
+                    ActiveCollection = ExpenseCollections[1];
                 else
-                    ActiveCollection = NoteCollections[--index];
+                    ActiveCollection = ExpenseCollections[--index];
             }
-            await _noteRepository.Delete(model);
-            Messenger.Default.Send(Messages.NotesChanged);
+            await _expenseRepository.Delete(model);
+            Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
-        private readonly RelayCommand<NoteCollectionModel> _saveNoteCollection;
-        public ICommand SaveNoteCollectionCommand => _saveNoteCollection;
+        private readonly RelayCommand<ExpenseCollectionModel> _saveExpenseCollection;
+        public ICommand SaveExpenseCollectionCommand => _saveExpenseCollection;
 
-        public bool CanSaveNoteCollection(NoteCollectionModel model)
+        public bool CanSaveExpenseCollection(ExpenseCollectionModel model)
         {
             return !string.IsNullOrEmpty(model?.Name);
         }
 
-        private async void SaveNoteCollection(NoteCollectionModel model)
+        private async void SaveExpenseCollection(ExpenseCollectionModel model)
         {
-            await _noteRepository.Save(model);
+            await _expenseRepository.Save(model);
         }
 
-        private readonly RelayCommand<NoteModel> _removeNote;
-        public ICommand RemoveNoteCommand => _removeNote;
+        private readonly RelayCommand<ExpenseModel> _removeExpense;
+        public ICommand RemoveExpenseCommand => _removeExpense;
 
-        private async void RemoveNote(NoteModel note)
+        private async void RemoveExpense(ExpenseModel expense)
         {
-            await _noteRepository.Delete(note);
-            Messenger.Default.Send(Messages.NotesChanged);
+            await _expenseRepository.Delete(expense);
+            Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
-        private ObservableCollection<NoteCollectionModel> _noteCollections;
-        public ObservableCollection<NoteCollectionModel> NoteCollections
+        private ObservableCollection<ExpenseCollectionModel> _expenseCollections;
+        public ObservableCollection<ExpenseCollectionModel> ExpenseCollections
         {
-            get { return _noteCollections; }
-            set { Set(ref _noteCollections, value); }
+            get { return _expenseCollections; }
+            set { Set(ref _expenseCollections, value); }
         }
 
-        private NoteCollectionModel _activeCollection;
-        public NoteCollectionModel ActiveCollection
+        private ExpenseCollectionModel _activeCollection;
+        public ExpenseCollectionModel ActiveCollection
         {
             get { return _activeCollection; }
             set { Set(ref _activeCollection, value); }

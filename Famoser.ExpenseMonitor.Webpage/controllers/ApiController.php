@@ -6,10 +6,10 @@
  * Time: 20:17
  */
 
-namespace famoser\rememberless\webpage\controllers;
+namespace famoser\expensemonitor\webpage\controllers;
 
 
-use famoser\rememberless\webpage\core\interfaces\iController;
+use famoser\expensemonitor\webpage\core\interfaces\iController;
 use PDO;
 
 class ApiController implements iController
@@ -17,7 +17,7 @@ class ApiController implements iController
     function execute($param, $post)
     {
         if (count($param) > 0 && $param[0] == "stats") {
-            return "Notes:".$this->countNotes()."<br>NoteTakers:".$this->countNoteTakers();
+            return "Expenses:".$this->countExpenses()."<br>ExpenseTakers:".$this->countExpenseTakers();
         }
         if (count($param) > 0 && $param[0] == "prepare") {
             return "Funktion not implemented yet";//$this->prepareTable();
@@ -25,19 +25,19 @@ class ApiController implements iController
         return "Online";
     }
 
-    private function countNotes()
+    private function countExpenses()
     {
         $db = GetDatabaseConnection();
-        $pdo = $db->prepare("SELECT COUNT(*) FROM Note");
+        $pdo = $db->prepare("SELECT COUNT(*) FROM Expense");
         $pdo->execute();
 
         return $pdo->fetch(PDO::FETCH_NUM)[0];
     }
 
-    private function countNoteTakers()
+    private function countExpenseTakers()
     {
         $db = GetDatabaseConnection();
-        $pdo = $db->prepare("SELECT COUNT(*) FROM NoteTaker");
+        $pdo = $db->prepare("SELECT COUNT(*) FROM ExpenseTaker");
         $pdo->execute();
 
         return $pdo->fetch(PDO::FETCH_NUM)[0];
@@ -52,7 +52,7 @@ class ApiController implements iController
 
         if ($pdo->fetch(PDO::FETCH_NUM)[0] == 0) {
             $pdo = $db->prepare("
-CREATE TABLE Notes
+CREATE TABLE Expenses
 (Id INTEGER PRIMARY KEY AUTOINCREMENT,
 Guid varchar(255),
 UserGuid varchar(255),

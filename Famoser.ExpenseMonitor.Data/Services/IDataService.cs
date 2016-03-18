@@ -5,9 +5,9 @@ namespace Famoser.ExpenseMonitor.Data.Services
 {
     public interface IDataService
     {
-        Task<BooleanResponse> PostNote(NoteRequest request);
-        Task<BooleanResponse> PostNoteCollection(NoteCollectionRequest request);
-        Task<NoteResponse> GetNotes(NoteRequest request);
-        Task<NoteCollectionResponse> GetNoteCollections(NoteCollectionRequest request);
+        Task<BooleanResponse> PostExpense(ExpenseRequest request);
+        Task<BooleanResponse> PostExpenseCollection(ExpenseCollectionRequest request);
+        Task<ExpenseResponse> GetExpense(ExpenseRequest request);
+        Task<ExpenseCollectionResponse> GetExpenseCollections(ExpenseCollectionRequest request);
     }
 }

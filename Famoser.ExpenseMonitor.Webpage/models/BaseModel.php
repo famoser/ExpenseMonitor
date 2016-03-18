@@ -6,7 +6,7 @@
  * Time: 16:29
  */
 
-namespace famoser\rememberless\webpage\models;
+namespace famoser\expensemonitor\webpage\models;
 
 
 class BaseModel

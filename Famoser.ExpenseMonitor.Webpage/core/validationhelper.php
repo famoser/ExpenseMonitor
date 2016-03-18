@@ -6,9 +6,9 @@
  * Time: 12:53
  */
 
-namespace famoser\rememberless\webpage\core\validationhelper;
+namespace famoser\expensemonitor\webpage\core\validationhelper;
 
-use famoser\rememberless\webpage\core\logging\logger;
+use famoser\expensemonitor\webpage\core\logging\logger;
 
 function ValidateGuid($input)
 {

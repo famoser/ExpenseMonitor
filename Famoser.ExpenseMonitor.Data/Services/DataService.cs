@@ -11,65 +11,65 @@ namespace Famoser.ExpenseMonitor.Data.Services
 {
     public class DataService : IDataService
     {
-        private const string ApiUrl = "https://api.rememberless.famoser.ch/";
+        private const string ApiUrl = "https://api.expensemonitor.famoser.ch/";
 
-        public Task<BooleanResponse> PostNote(NoteRequest request)
+        public Task<BooleanResponse> PostExpense(ExpenseRequest request)
         {
             var json = JsonConvert.SerializeObject(request);
-            return PostForBoolean(new Uri(ApiUrl + "notes/act"), json);
+            return PostForBoolean(new Uri(ApiUrl + "expenses/act"), json);
         }
 
-        public Task<BooleanResponse> PostNoteCollection(NoteCollectionRequest request)
+        public Task<BooleanResponse> PostExpenseCollection(ExpenseCollectionRequest request)
         {
             var json = JsonConvert.SerializeObject(request);
-            return PostForBoolean(new Uri(ApiUrl + "notecollections/act"), json);
+            return PostForBoolean(new Uri(ApiUrl + "expensecollections/act"), json);
         }
 
-        public async Task<NoteResponse> GetNotes(NoteRequest request)
+        public async Task<ExpenseResponse> GetExpense(ExpenseRequest request)
         {
             var json = JsonConvert.SerializeObject(request);
-            var resp = await PostForString(new Uri(ApiUrl + "notes/act"), json);
+            var resp = await PostForString(new Uri(ApiUrl + "expenses/act"), json);
             if (resp.IsSuccessfull)
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<NoteResponse>(resp.Response);
+                    return JsonConvert.DeserializeObject<ExpenseResponse>(resp.Response);
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetNotes failed with response: " + resp.Response, ex);
-                    return new NoteResponse()
+                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
+                    return new ExpenseResponse()
                     {
                         ErrorMessage = "Unserialisation failed for Content " + resp.Response
                     };
                 }
             }
-            return new NoteResponse()
+            return new ExpenseResponse()
             {
                 ErrorMessage = resp.ErrorMessage
             };
         }
 
-        public async Task<NoteCollectionResponse> GetNoteCollections(NoteCollectionRequest request)
+        public async Task<ExpenseCollectionResponse> GetExpenseCollections(ExpenseCollectionRequest request)
         {
             var json = JsonConvert.SerializeObject(request);
-            var resp = await PostForString(new Uri(ApiUrl + "notecollections/act"), json);
+            var resp = await PostForString(new Uri(ApiUrl + "expensecollections/act"), json);
             if (resp.IsSuccessfull)
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<NoteCollectionResponse>(resp.Response);
+                    return JsonConvert.DeserializeObject<ExpenseCollectionResponse>(resp.Response);
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetNotes failed with response: " + resp.Response, ex);
-                    return new NoteCollectionResponse()
+                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
+                    return new ExpenseCollectionResponse()
                     {
                         ErrorMessage = "Unserialisation failed for Content " + resp.Response
                     };
                 }
             }
-            return new NoteCollectionResponse()
+            return new ExpenseCollectionResponse()
             {
                 ErrorMessage = resp.ErrorMessage
             };

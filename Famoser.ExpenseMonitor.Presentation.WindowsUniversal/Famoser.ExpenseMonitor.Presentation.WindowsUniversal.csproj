@@ -107,17 +107,13 @@
     </Compile>
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\MainPage\ColorConverter.cs" />
     <Compile Include="Converters\MainPage\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\MainPage\DoubleToCurrencyConverter.cs" />
     <Compile Include="Converters\MainPage\ListToCountConverter.cs" />
-    <Compile Include="Converters\MainPage\SymbolConverter.cs" />
     <Compile Include="Enums\LocalMessages.cs" />
     <Compile Include="Helpers\ResolutionHelper.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ConnectPage.xaml.cs">
-      <DependentUpon>ConnectPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomNavigationService.cs" />
@@ -125,20 +121,14 @@
     <Compile Include="Services\NavigationHelper.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Services\TilesService.cs" />
-    <Compile Include="UserControls\ConnectPage\CreateQrCode.xaml.cs">
-      <DependentUpon>CreateQrCode.xaml</DependentUpon>
+    <Compile Include="UserControls\MainPage\ExpenseCollectionList.xaml.cs">
+      <DependentUpon>ExpenseCollectionList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MainPage\NoteCollectionList.xaml.cs">
-      <DependentUpon>NoteCollectionList.xaml</DependentUpon>
+    <Compile Include="UserControls\MainPage\ExpenseCollectionsOverview.xaml.cs">
+      <DependentUpon>ExpenseCollectionsOverview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MainPage\NoteCollectionsOverview.xaml.cs">
-      <DependentUpon>NoteCollectionsOverview.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MainPage\NoteList.xaml.cs">
-      <DependentUpon>NoteList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ConnectPage\TakeImage.xaml.cs">
-      <DependentUpon>TakeImage.xaml</DependentUpon>
+    <Compile Include="UserControls\MainPage\ExpenseList.xaml.cs">
+      <DependentUpon>ExpenseList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ProgressUserControl.xaml.cs">
       <DependentUpon>ProgressUserControl.xaml</DependentUpon>
@@ -170,27 +160,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\ConnectPage.xaml">
+    <Page Include="UserControls\MainPage\ExpenseCollectionList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ConnectPage\CreateQrCode.xaml">
+    <Page Include="UserControls\MainPage\ExpenseCollectionsOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MainPage\NoteCollectionList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MainPage\NoteCollectionsOverview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MainPage\NoteList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\ConnectPage\TakeImage.xaml">
+    <Page Include="UserControls\MainPage\ExpenseList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
