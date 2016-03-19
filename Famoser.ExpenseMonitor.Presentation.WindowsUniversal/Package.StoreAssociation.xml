@@ -360,14 +360,15 @@
   <ProductReservedInfo>
     <MainPackageIdentityName>10401FlorianMoser.ExpenseMonitor</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>rememberless</ReservedName>
+      <ReservedName>ExpenseMonitor</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
     <MainPackageIdentityName>10401FlorianMoser.BeerCompanion</MainPackageIdentityName>
+    <MainPackageIdentityName>10401FlorianMoser.ETHMensa</MainPackageIdentityName>
     <MainPackageIdentityName>10401FlorianMoser.Gymoberwil</MainPackageIdentityName>
     <MainPackageIdentityName>10401FlorianMoser.OfflineMedia</MainPackageIdentityName>
-    <MainPackageIdentityName>10401FlorianMoser.ExpenseMonitor</MainPackageIdentityName>
+    <MainPackageIdentityName>10401FlorianMoser.rememberless</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH5PP3Q" />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4RKTC" />
 </StoreAssociation>

@@ -117,7 +117,7 @@
                                         </Button.Content>
                                     </Button>
                                     <TextBox TabIndex="0" Grid.Column="1" Text="{Binding ActiveCollection.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewExpenseTextBox}" />
-                                    <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Command="{Binding SaveExpenseCollectionCommand}" CommandParameter="{Binding ActiveCollection}">
+                                    <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Command="{Binding SaveExpenseCollectionCommand}" CommandParameter="{Binding ActiveCollection}" Tapped="Button_Tapped_1" >
                                         <Button.Content>
                                             <SymbolIcon Symbol="Save" />
                                         </Button.Content>

@@ -121,5 +121,11 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
         {
             UIElement_OnTapped();
         }
+
+        private void Button_Tapped_1(object sender, TappedRoutedEventArgs e)
+        {
+            if (EditCollectionGrid.Visibility == Visibility.Visible)
+                EditCollectionGrid.Visibility = Visibility.Collapsed;
+        }
     }
 }
