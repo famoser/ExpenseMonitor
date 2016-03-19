@@ -53,7 +53,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
 
                 NewExpenseDescription = "my description is longer than the place avaliable";
                 NewExpenseAmount = 5.2;
-                NewExpenseTime = DateTime.Now;
+                NewExpenseDate = DateTime.Now;
             }
             else
             {
@@ -143,13 +143,13 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             get { return ActiveCollection?.Expenses.Sum(e => e.Amount); }
         }
 
-        private DateTime _newExpenseTime;
-        public DateTime NewExpenseTime
+        private DateTime _newExpenseDate;
+        public DateTime NewExpenseDate
         {
-            get { return _newExpenseTime; }
+            get { return _newExpenseDate; }
             set
             {
-                if (Set(ref _newExpenseTime, value))
+                if (Set(ref _newExpenseDate, value))
                     _addExpenseCommand.RaiseCanExecuteChanged();
             }
         }
@@ -178,7 +178,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
                 {
                     Description = NewExpenseDescription,
                     Guid = Guid.NewGuid(),
-                    CreateTime = NewExpenseTime,
+                    CreateTime = NewExpenseDate,
                     Amount = NewExpenseAmount.Value,
                     ExpenseCollection = ActiveCollection
                 };
@@ -197,12 +197,12 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         {
             NewExpenseAmount = model.Amount;
             NewExpenseDescription = model.Description;
-            NewExpenseTime = DateTime.Now;
+            NewExpenseDate = DateTime.Now;
         }
 
         private void SetExpenseDefaults()
         {
-            NewExpenseTime = DateTime.Now;
+            NewExpenseDate = DateTime.Now;
             var lastExpense = ActiveCollection?.Expenses.FirstOrDefault();
             if (lastExpense != null)
             {

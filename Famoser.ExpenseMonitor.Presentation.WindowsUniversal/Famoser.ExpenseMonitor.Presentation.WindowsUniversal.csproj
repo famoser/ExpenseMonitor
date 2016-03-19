@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\MainPage\awd.cs" />
     <Compile Include="Converters\MainPage\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\MainPage\DoubleToCurrencyConverter.cs" />
     <Compile Include="Converters\MainPage\ListToCountConverter.cs" />

@@ -73,14 +73,14 @@
                 <StackPanel>
                     <mainPage:ExpenseCollectionList DataContext="{Binding }" TabIndex="0"/>
                     <Grid Height="51.5" Margin="0,1,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="1" >
+                        <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="11" KeyDown="TextBox_KeyDown" />
+                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="10" >
                             <Button.Content>
                                 <SymbolIcon Symbol="Add" />
                             </Button.Content>
                         </Button>
                     </Grid>
-                    <ListView  AllowDrop="True" CanDragItems="True" CanReorderItems="True" Style="{StaticResource StretchListView}" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" ItemTemplate="{StaticResource ExpenseCollectionTemplate}" ItemsSource="{Binding ExpenseCollections}" SelectedItem="{Binding ActiveCollection, Mode=TwoWay}" ItemContainerStyle="{StaticResource StretchListViewItemStyle}" ItemClick="ListView_ItemClick_1"  />
+                    <ListView TabIndex="9" AllowDrop="True" CanDragItems="True" CanReorderItems="True" Style="{StaticResource StretchListView}" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" ItemTemplate="{StaticResource ExpenseCollectionTemplate}" ItemsSource="{Binding ExpenseCollections}" SelectedItem="{Binding ActiveCollection, Mode=TwoWay}" ItemContainerStyle="{StaticResource StretchListViewItemStyle}" ItemClick="ListView_ItemClick_1"  />
                 </StackPanel>
             </ScrollViewer>
         </SplitView.Pane>
@@ -151,7 +151,7 @@
                             <SymbolIcon Symbol="CalendarDay" />
                         </Button.Content>
                         <Button.Flyout>
-                            <DatePickerFlyout Date="{Binding NewExpenseTime, Mode=TwoWay}" />
+                            <DatePickerFlyout Date="{Binding NewExpenseDate, Mode=TwoWay, Converter={StaticResource NativeTypeConverter}, ConverterParameter=DateTime}"  />
                         </Button.Flyout>
                     </Button>
                     <Button Grid.Column="4" Style="{StaticResource AddNewExpenseButton}" Command="{Binding AddExpenseCommand}" TabIndex="4">

@@ -162,6 +162,7 @@
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
             <helpers:ResolutionHelper x:Key="ResolutionHelper" />
             <mainPage:DoubleToCurrencyConverter x:Key="DoubleToCurrencyConverter" />
+            <mainPage:NativeTypeConverter x:Key="NativeTypeConverter" />
 
             <DataTemplate x:Name="ExpenseTemplate">
                 <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
