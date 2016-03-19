@@ -40,7 +40,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
                     LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
                     return new ExpenseResponse()
                     {
-                        ErrorMessage = "Unserialisation failed for Content " + resp.Response
+                        ErrorMessage = "Unserialisation failed for Description " + resp.Response
                     };
                 }
             }
@@ -65,7 +65,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
                     LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
                     return new ExpenseCollectionResponse()
                     {
-                        ErrorMessage = "Unserialisation failed for Content " + resp.Response
+                        ErrorMessage = "Unserialisation failed for Description " + resp.Response
                     };
                 }
             }

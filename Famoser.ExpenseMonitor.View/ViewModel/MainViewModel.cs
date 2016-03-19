@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Famoser.ExpenseMonitor.Business.Models;
@@ -49,14 +50,20 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             {
                 ExpenseCollections = expenseRepository.GetExampleCollections();
                 ActiveCollection = ExpenseCollections[0];
+
+                NewExpenseDescription = "my description is longer than the place avaliable";
+                NewExpenseAmount = 5.2;
+                NewExpenseTime = DateTime.Now;
             }
             else
             {
                 Initialize();
+                SetExpenseDefaults();
             }
             _removeExpenseCollection = new RelayCommand<ExpenseCollectionModel>(RemoveExpenseCollection, CanRemoveExpenseCollection);
             _saveExpenseCollection = new RelayCommand<ExpenseCollectionModel>(SaveExpenseCollection, CanSaveExpenseCollection);
             _addExpenseCollectionCommand = new RelayCommand(AddExpenseCollection, () => CanAddExpenseCollection);
+            _useExpenseAsTemplateCommand = new RelayCommand<ExpenseModel>(UseExpenseAsTemplate);
 
             Messenger.Default.Register<ExpenseCollectionModel>(this, Messages.Select, EvaluateSelectMessage);
         }
@@ -75,7 +82,8 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             _refreshCommand.RaiseCanExecuteChanged();
 
             ExpenseCollections = await _expenseRepository.GetCollections();
-            ActiveCollection = ExpenseCollections[0];
+            ActiveCollection = ExpenseCollections.FirstOrDefault();
+            RaisePropertyChanged(() => TotalExpenseAmount);
 
             _isInitializing = false;
             _refreshCommand.RaiseCanExecuteChanged();
@@ -91,6 +99,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
 
             await _expenseRepository.SyncExpenses();
             Messenger.Default.Send(Messages.ExpenseChanged);
+            RaisePropertyChanged(() => TotalExpenseAmount);
 
             _isSyncing = false;
             _refreshCommand.RaiseCanExecuteChanged();
@@ -107,13 +116,40 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
             await SyncExpenses();
         }
 
-        private string _newExpense;
-        public string NewExpense
+        private string _newExpenseDescription;
+        public string NewExpenseDescription
         {
-            get { return _newExpense; }
+            get { return _newExpenseDescription; }
             set
             {
-                if (Set(ref _newExpense, value))
+                if (Set(ref _newExpenseDescription, value))
+                    _addExpenseCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private double? _newExpenseAmount;
+        public double? NewExpenseAmount
+        {
+            get { return _newExpenseAmount; }
+            set
+            {
+                if (Set(ref _newExpenseAmount, value))
+                    _addExpenseCommand.RaiseCanExecuteChanged();
+            }
+        }
+        
+        public double? TotalExpenseAmount
+        {
+            get { return ActiveCollection?.Expenses.Sum(e => e.Amount); }
+        }
+
+        private DateTime _newExpenseTime;
+        public DateTime NewExpenseTime
+        {
+            get { return _newExpenseTime; }
+            set
+            {
+                if (Set(ref _newExpenseTime, value))
                     _addExpenseCommand.RaiseCanExecuteChanged();
             }
         }
@@ -132,20 +168,52 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         private readonly RelayCommand _addExpenseCommand;
         public ICommand AddExpenseCommand => _addExpenseCommand;
 
-        public bool CanAddExpense => !string.IsNullOrEmpty(_newExpense);
+        public bool CanAddExpense => !string.IsNullOrEmpty(_newExpenseDescription) && NewExpenseAmount.HasValue;
 
         private async void AddExpense()
         {
-            var newExpense = new ExpenseModel()
+            if (NewExpenseAmount.HasValue)
             {
-                Description = NewExpense,
-                Guid = Guid.NewGuid(),
-                CreateTime = DateTime.Now,
-                ExpenseCollection = ActiveCollection
-            };
-            NewExpense = "";
-            await _expenseRepository.Save(newExpense);
-            Messenger.Default.Send(Messages.ExpenseChanged);
+                var newExpense = new ExpenseModel()
+                {
+                    Description = NewExpenseDescription,
+                    Guid = Guid.NewGuid(),
+                    CreateTime = NewExpenseTime,
+                    Amount = NewExpenseAmount.Value,
+                    ExpenseCollection = ActiveCollection
+                };
+                await _expenseRepository.Save(newExpense);
+                RaisePropertyChanged(() => TotalExpenseAmount);
+
+                SetExpenseDefaults();
+                Messenger.Default.Send(Messages.ExpenseChanged);
+            }
+        }
+
+        private readonly RelayCommand<ExpenseModel> _useExpenseAsTemplateCommand;
+        public ICommand AddExpenseAsTemplateCommand => _useExpenseAsTemplateCommand;
+
+        private void UseExpenseAsTemplate(ExpenseModel model)
+        {
+            NewExpenseAmount = model.Amount;
+            NewExpenseDescription = model.Description;
+            NewExpenseTime = DateTime.Now;
+        }
+
+        private void SetExpenseDefaults()
+        {
+            NewExpenseTime = DateTime.Now;
+            var lastExpense = ActiveCollection?.Expenses.FirstOrDefault();
+            if (lastExpense != null)
+            {
+                NewExpenseDescription = lastExpense.Description;
+                NewExpenseAmount = lastExpense.Amount;
+            }
+            else
+            {
+                NewExpenseAmount = null;
+                NewExpenseDescription = null;
+            }
         }
 
         private readonly RelayCommand _addExpenseCollectionCommand;
@@ -167,11 +235,12 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         }
 
         private readonly RelayCommand<ExpenseModel> _save;
-        public ICommand SaveCommand { get { return _save; } }
+        public ICommand SaveCommand => _save;
 
         private async void Save(ExpenseModel expense)
         {
             await _expenseRepository.Save(expense);
+            RaisePropertyChanged(() => TotalExpenseAmount);
             Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
@@ -194,6 +263,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
                     ActiveCollection = ExpenseCollections[--index];
             }
             await _expenseRepository.Delete(model);
+            RaisePropertyChanged(() => TotalExpenseAmount);
             Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
@@ -216,6 +286,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         private async void RemoveExpense(ExpenseModel expense)
         {
             await _expenseRepository.Delete(expense);
+            RaisePropertyChanged(() => TotalExpenseAmount);
             Messenger.Default.Send(Messages.ExpenseChanged);
         }
 
@@ -230,7 +301,12 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         public ExpenseCollectionModel ActiveCollection
         {
             get { return _activeCollection; }
-            set { Set(ref _activeCollection, value); }
+            set {
+                if (Set(ref _activeCollection, value))
+                {
+                    RaisePropertyChanged(() => TotalExpenseAmount);
+                }
+            }
         }
     }
 }

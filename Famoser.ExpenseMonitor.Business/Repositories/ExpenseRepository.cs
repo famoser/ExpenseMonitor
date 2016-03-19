@@ -40,21 +40,21 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                 new ExpenseModel()
                 {
                     Guid = Guid.NewGuid(),
-                    Description = "Note 1",
+                    Description = "Beschreibung 1",
+                    CreateTime = DateTime.Now,
+                    Amount = 13.5
+                },
+                new ExpenseModel()
+                {
+                    Guid = Guid.NewGuid(),
+                    Description = "Beschreibung 2",
                     CreateTime = DateTime.Now,
                     Amount = 13.5,
                 },
                 new ExpenseModel()
                 {
                     Guid = Guid.NewGuid(),
-                    Description = "Note 2",
-                    CreateTime = DateTime.Now,
-                    Amount = 13.5,
-                },
-                new ExpenseModel()
-                {
-                    Guid = Guid.NewGuid(),
-                    Description = "Note 3",
+                    Description = "Beschreibung 3",
                     CreateTime = DateTime.Now,
                     Amount = 13.5,
                 }
@@ -99,26 +99,29 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                         await SyncExpenses();
                     }
                 }
+                else
+                {
+                    _dataModel = new DataModel();
+                    var coll = new ExpenseCollectionModel()
+                    {
+                        Name = "Meals",
+                        Guid = Guid.NewGuid(),
+                        PendingAction = PendingAction.AddOrUpdate
+                    };
+                    foreach (var note in coll.Expenses)
+                    {
+                        note.ExpenseCollection = coll;
+                    }
+
+                    _dataModel.Collections.Add(coll);
+
+                    await SyncExpenses();
+                    await SaveExpenseCollectionsToStorage();
+                }
             }
             catch (Exception ex)
             {
                 LogHelper.Instance.LogException(ex, this);
-            }
-            if (!_dataModel.Collections.Any())
-            {
-                var coll = new ExpenseCollectionModel()
-                {
-                    Name = "Meals",
-                    Guid = Guid.NewGuid(),
-                    PendingAction = PendingAction.AddOrUpdate
-                };
-                foreach (var note in coll.Expenses)
-                {
-                    note.ExpenseCollection = coll;
-                }
-
-                _dataModel.Collections.Add(coll);
-                await SaveExpenseCollectionsToStorage();
             }
             return _dataModel.Collections;
         }
@@ -168,7 +171,7 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                 if (syncRequestResult.IsSuccessfull)
                 {
                     //actualize existing / add new
-                    foreach (var collectionEntity in syncRequestResult.NoteCollections)
+                    foreach (var collectionEntity in syncRequestResult.ExpenseCollections)
                     {
                         var existingModel = _dataModel.Collections.FirstOrDefault(n => n.Guid == collectionEntity.Guid);
                         if (existingModel == null)
@@ -182,7 +185,7 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                         }
                     }
                     //remove old
-                    var old = _dataModel.Collections.Where(n => syncRequestResult.NoteCollections.All(no => no.Guid != n.Guid)).ToList();
+                    var old = _dataModel.Collections.Where(n => syncRequestResult.ExpenseCollections.All(no => no.Guid != n.Guid)).ToList();
                     foreach (var noteModel in old)
                     {
                         _dataModel.Collections.Remove(noteModel);
@@ -225,7 +228,7 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                     if (getRequestResult.IsSuccessfull)
                     {
                         //actualize existing / add new
-                        foreach (var noteEntity in getRequestResult.Notes)
+                        foreach (var noteEntity in getRequestResult.Expenses)
                         {
                             ExpenseModel existingModel = noteCollectionModel.Expenses.FirstOrDefault(n => n.Guid == noteEntity.Guid);
                             if (existingModel == null)
@@ -245,7 +248,7 @@ namespace Famoser.ExpenseMonitor.Business.Repositories
                             }
                         }
                         //remove old
-                        var old = noteCollectionModel.Expenses.Where(n => getRequestResult.Notes.All(no => no.Guid != n.Guid)).ToList();
+                        var old = noteCollectionModel.Expenses.Where(n => getRequestResult.Expenses.All(no => no.Guid != n.Guid)).ToList();
                         foreach (var noteModel in old)
                         {
                             noteCollectionModel.Expenses.Remove(noteModel);

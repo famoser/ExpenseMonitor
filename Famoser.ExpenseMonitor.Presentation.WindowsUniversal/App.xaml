@@ -50,7 +50,7 @@
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontWeight" Value="Light" />
-                <Setter Property="BorderThickness" Value="0,1,0,1" />
+                <Setter Property="BorderThickness" Value="0,1" />
                 <Setter Property="Padding" Value="12" />
             </Style>
 
@@ -69,6 +69,16 @@
                 <Setter Property="FontWeight" Value="Light" />
                 <Setter Property="TextWrapping" Value="Wrap" />
                 <Setter Property="Padding" Value="10" />
+            </Style>
+
+            <Style x:Key="SecondaryExpenseTexBlock" TargetType="TextBlock">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Light" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Opacity" Value="0.6" />
             </Style>
 
             <Style x:Key="EditExpenseButton" TargetType="Button">
@@ -153,16 +163,17 @@
             <helpers:ResolutionHelper x:Key="ResolutionHelper" />
             <mainPage:DoubleToCurrencyConverter x:Key="DoubleToCurrencyConverter" />
 
-
             <DataTemplate x:Name="ExpenseTemplate">
                 <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Style="{StaticResource ExpenseTexBlock}" Text="{Binding Amount, Converter={StaticResource DoubleToCurrencyConverter}}" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <Button Style="{StaticResource EditExpenseButton}" Grid.Column="1" Foreground="{ThemeResource DisApprooveRed}" Command="{Binding MainViewModel.RemoveExpenseCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
+                    <TextBlock Grid.Column="1" Style="{StaticResource SecondaryExpenseTexBlock}" Text="{Binding Description}" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Button Style="{StaticResource EditExpenseButton}" Grid.Column="2" Foreground="{ThemeResource DisApprooveRed}" Command="{Binding MainViewModel.RemoveExpenseCommand, Source={StaticResource Locator}}" CommandParameter="{Binding }" >
                         <Button.Content>
                             <SymbolIcon Symbol="Clear" />
                         </Button.Content>
@@ -183,26 +194,6 @@
                     <TextBlock Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding Expenses.Count}" />
                 </Grid>
             </DataTemplate>
-
-
-            <DataTemplate x:Name="ExpenseCollectionWithNewExpensesTemplate">
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Name}" Grid.Column="0" Style="{ThemeResource SubHeaderTextBlock}" Padding="10,15,10,10" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource CounterTextBlock}" Text="{Binding Expenses.Count}" />
-                    <mainPage1:ExpenseList Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding NewExpenses}" />
-                </Grid>
-            </DataTemplate>
-
-
         </ResourceDictionary>
     </Application.Resources>
-
 </Application>

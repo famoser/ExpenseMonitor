@@ -9,10 +9,10 @@ namespace Famoser.ExpenseMonitor.Data.Entities.Communication
     {
         public ExpenseCollectionResponse()
         {
-            NoteCollections = new List<ExpenseCollectionEntity>();
+            ExpenseCollections = new List<ExpenseCollectionEntity>();
         }
 
         [DataMember]
-        public List<ExpenseCollectionEntity> NoteCollections { get; set; }
+        public List<ExpenseCollectionEntity> ExpenseCollections { get; set; }
     }
 }

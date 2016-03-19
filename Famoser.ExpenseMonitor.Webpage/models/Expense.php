@@ -12,7 +12,7 @@ namespace famoser\expensemonitor\webpage\models;
 class Expense extends BaseGuidModel
 {
     public $ExpenseCollectionId;
-    public $Content;
+    public $Description;
     public $CreateTime;
-    public $IsCompleted;
+    public $Amount;
 }

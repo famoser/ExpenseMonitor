@@ -358,7 +358,7 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>10401FlorianMoser.rememberless</MainPackageIdentityName>
+    <MainPackageIdentityName>10401FlorianMoser.ExpenseMonitor</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>rememberless</ReservedName>
     </ReservedNames>
@@ -367,6 +367,7 @@
     <MainPackageIdentityName>10401FlorianMoser.BeerCompanion</MainPackageIdentityName>
     <MainPackageIdentityName>10401FlorianMoser.Gymoberwil</MainPackageIdentityName>
     <MainPackageIdentityName>10401FlorianMoser.OfflineMedia</MainPackageIdentityName>
+    <MainPackageIdentityName>10401FlorianMoser.ExpenseMonitor</MainPackageIdentityName>
   </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH5PP3Q" />
 </StoreAssociation>

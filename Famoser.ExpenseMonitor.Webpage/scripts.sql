@@ -1,7 +1,7 @@
-DROP TABLE Expense;
-DROP TABLE ExpenseCollection;
-DROP TABLE ExpenseTakerListRelation;
-DROP TABLE ExpenseTaker;
+DROP TABLE Expenses;
+DROP TABLE ExpenseCollections;
+DROP TABLE ExpenseTakerExpenseCollectionRelations;
+DROP TABLE ExpenseTakers;
 
 CREATE TABLE ExpenseTakers
 (
@@ -29,7 +29,7 @@ CREATE TABLE Expenses
 	Id INTEGER PRIMARY KEY AUTOINCREMENT,
 	ExpenseCollectionId int,
 	Guid varchar(255),
-	Content text,
+	Description text,
 	CreateTime datetime,
-	IsCompleted bool
+	Amount double
 );

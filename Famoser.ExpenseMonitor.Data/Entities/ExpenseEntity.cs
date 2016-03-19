@@ -10,7 +10,7 @@ namespace Famoser.ExpenseMonitor.Data.Entities
         public Guid Guid;
 
         [DataMember]
-        public string Content;
+        public string Description;
 
         [DataMember]
         public DateTime CreateTime;

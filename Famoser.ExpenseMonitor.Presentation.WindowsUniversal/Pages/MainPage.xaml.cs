@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Famoser.ExpenseMonitor.Business.Models;
+using Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Converters.MainPage;
 using Famoser.ExpenseMonitor.View.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -20,22 +23,6 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
         public MainPage()
         {
             this.InitializeComponent();
-            SystemNavigationManager.GetForCurrentView().BackRequested += (s, ev) =>
-            {
-                if (!ev.Handled)
-                {
-                    if (EditCollectionGrid.Visibility == Visibility.Visible)
-                    {
-                        ev.Handled = true;
-                        EditCollectionGrid.Visibility = Visibility.Collapsed;
-                    }
-                    else if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
-                    {
-                        ev.Handled = true;
-                        UIElement_OnTapped();
-                    }
-                }
-            };
         }
 
         private MainViewModel ViewModel => DataContext as MainViewModel;
@@ -44,37 +31,26 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
         {
             if (ViewModel.RefreshCommand.CanExecute(null))
                 ViewModel.RefreshCommand.Execute(null);
-            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-        }
-
-        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (propertyChangedEventArgs.PropertyName == "ActiveCollection")
-            {
-                if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
-                    UIElement_OnTapped(null, null);
-            }
         }
 
         private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter && e.KeyStatus.RepeatCount == 1)
             {
-                var vm = DataContext as MainViewModel;
                 var tb = sender as TextBox;
                 if (tb == AddNewExpenseCollectionTextBox)
                 {
-                    if (vm?.AddExpenseCollectionCommand.CanExecute(null) == true)
-                        vm.AddExpenseCollectionCommand.Execute(null);
+                    if (ViewModel?.AddExpenseCollectionCommand.CanExecute(null) == true)
+                        ViewModel.AddExpenseCollectionCommand.Execute(null);
                 }
-                else if (tb == AddNewExpenseTextBox)
+                else if (tb == NewExpenseDescriptionTextBox)
                 {
-                    if (vm?.AddExpenseCommand.CanExecute(null) == true)
-                        vm.AddExpenseCommand.Execute(null);
+                    if (ViewModel?.AddExpenseCommand.CanExecute(null) == true)
+                        ViewModel.AddExpenseCommand.Execute(null);
                 }
             }
         }
-        
+
         private void EditCollectionButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             EditCollectionGrid.Visibility = EditCollectionGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
@@ -103,16 +79,47 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
 
         private void UIElement_OnTapped(object sender = null, TappedRoutedEventArgs e = null)
         {
-            if (ExpenseCollectionsOverview.Visibility == Visibility.Visible)
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+
+        private void AmountTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
             {
-                ExpenseCollectionsOverview.Visibility = Visibility.Collapsed;
-                ActiveExpenseCollection.Visibility = Visibility.Visible;
+                GoToDescriptionTextBlock();
             }
-            else
+        }
+
+        private void NewExpenseAmountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (Regex.IsMatch(tb.Text, @"([0-9])*\.([0-9]){2}"))
             {
-                ExpenseCollectionsOverview.Visibility = Visibility.Visible;
-                ActiveExpenseCollection.Visibility = Visibility.Collapsed;
+                GoToDescriptionTextBlock();
             }
+        }
+
+        private void GoToDescriptionTextBlock()
+        {
+            NewExpenseDescriptionTextBox.Focus(FocusState.Pointer);
+        }
+
+        private void NewExpenseDescriptionTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var converter = new DoubleToCurrencyConverter();
+            NewExpenseAmountTextBox.Text = (string)converter.Convert(ViewModel.NewExpenseAmount, null, null, null);
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var model = e.ClickedItem as ExpenseModel;
+            if (ViewModel.AddExpenseAsTemplateCommand.CanExecute(model))
+                ViewModel.AddExpenseAsTemplateCommand.Execute(model);
+        }
+
+        private void ListView_ItemClick_1(object sender, ItemClickEventArgs e)
+        {
+            UIElement_OnTapped();
         }
     }
 }

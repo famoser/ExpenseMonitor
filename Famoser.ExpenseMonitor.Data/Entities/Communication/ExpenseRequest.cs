@@ -13,9 +13,9 @@ namespace Famoser.ExpenseMonitor.Data.Entities.Communication
         { }
 
         [DataMember]
-        public List<ExpenseEntity> Notes { get; set; }
+        public List<ExpenseEntity> Expenses { get; set; }
 
         [DataMember]
-        public Guid NoteCollectionGuid { get; set; }
+        public Guid ExpenseCollectionGuid { get; set; }
     }
 }

@@ -17,8 +17,8 @@ class ExpenseEntity extends Expense
     {
         //$this->Id = $ds->Id; Id censored
         $this->Guid = $note->Guid;
-        $this->Content = $note->Content;
+        $this->Description = $note->Description;
         $this->CreateTime = $note->CreateTime;
-        $this->IsCompleted = $note->IsCompleted;
+        $this->Amount = $note->Amount;
     }
 }

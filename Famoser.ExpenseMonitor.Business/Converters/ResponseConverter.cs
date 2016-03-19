@@ -11,7 +11,7 @@ namespace Famoser.ExpenseMonitor.Business.Converters
             return new ExpenseModel()
             {
                 Guid = expense.Guid,
-                Description = expense.Content,
+                Description = expense.Description,
                 CreateTime = expense.CreateTime,
                 Amount = expense.Amount
             };
@@ -20,7 +20,7 @@ namespace Famoser.ExpenseMonitor.Business.Converters
         public void WriteValues(ExpenseEntity expense, ExpenseModel model)
         {
             model.Amount = expense.Amount;
-            model.Description = expense.Content;
+            model.Description = expense.Description;
             model.CreateTime = expense.CreateTime;
         }
 

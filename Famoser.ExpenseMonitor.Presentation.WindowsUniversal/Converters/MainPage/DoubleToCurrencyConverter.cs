@@ -11,13 +11,20 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Converters.MainPa
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var val = (double) value;
-            return val.ToString("0.##");
+            if (value != null)
+            {
+                var val = (double) value;
+                return val.ToString("F");
+            }
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            double ret;
+            if (double.TryParse(value as string, out ret))
+                return ret;
+            return null;
         }
     }
 }

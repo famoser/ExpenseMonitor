@@ -8,16 +8,16 @@ namespace Famoser.ExpenseMonitor.Data.Entities.Communication.Base
     [DataContract]
     public class BaseRequest
     {
-        public BaseRequest(PossibleActions action, Guid noteTakerGuid)
+        public BaseRequest(PossibleActions action, Guid expenseTakerGuid)
         {
             _possibleAction = action;
-            NoteTakerGuid = noteTakerGuid;
+            ExpenseTakerGuid = expenseTakerGuid;
         }
 
         private readonly PossibleActions _possibleAction;
 
         [DataMember]
-        public Guid NoteTakerGuid { get; }
+        public Guid ExpenseTakerGuid { get; }
 
         [DataMember]
         public string Action

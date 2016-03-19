@@ -19,19 +19,19 @@ function ReturnError($error)
 function ReturnNotFound($identifier, $class)
 {
     header("HTTP/1.0 500 Internal Server Error");
-    return "The object " . $class . " with identifier ".$identifier . " cannot be found". appendLogs();
+    return "The object " . $class . " with identifier " . $identifier . " cannot be found" . appendLogs();
 }
 
 function ReturnNotAuthenticated($customMessage = "")
 {
     header("HTTP/1.0 500 Internal Server Error");
-    return "You are not authenticated to do this! ".$customMessage." ". appendLogs();
+    return "You are not authenticated to do this! " . $customMessage . " " . appendLogs();
 }
 
 function RelationNotFound($identifier1, $itentifier2, $class)
 {
     header("HTTP/1.0 500 Internal Server Error");
-    return "The relation with identifiers " . $identifier1 . " and " .$itentifier2 . " to retreieve class  ".$class . " cannot be found". appendLogs();
+    return "The relation with identifiers " . $identifier1 . " and " . $itentifier2 . " to retreieve class  " . $class . " cannot be found" . appendLogs();
 }
 
 function ReturnJson($object)
@@ -47,18 +47,18 @@ function ReturnBoolean($bool)
             return "true";
         return "false";
     }
-    return ReturnError("Input value not boolean! ".$bool);
+    return ReturnError("Input value not boolean! " . $bool . "\n" . debug_print_backtrace());
 }
 
 function ReturnCrudError($obj, $crud)
 {
     header("HTTP/1.0 500 Internal Server Error");
-    return "Crud error: Cannot execute ".$crud . " with object of class " . get_class($obj) . " and content ".json_encode($obj). appendLogs();
+    return "Crud error: Cannot execute " . $crud . " with object of class " . get_class($obj) . " and content " . json_encode($obj) . appendLogs();
 }
 
 function appendLogs()
 {
-    return " Logs: ".logger::getInstance()->retrieveAllLogs();
+    return " Logs: " . logger::getInstance()->retrieveAllLogs();
 }
 
-define("LINK_INVALID","Link invalid");
+define("LINK_INVALID", "Link invalid");

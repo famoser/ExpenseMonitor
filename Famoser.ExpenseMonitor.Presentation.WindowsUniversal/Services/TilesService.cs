@@ -30,19 +30,19 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
                         {
                             new TileText()
                             {
-                                Style = TileTextStyle.Title,
+                                Style = TileTextStyle.Body,
                                 Text = newNotes.Sum(n => n.Amount).ToString("0.##") + " total spent"
                             },
                             // For spacing
                             new TileText()
                             {
-                                Style = TileTextStyle.Title,
+                                Style = TileTextStyle.Body,
                                 Text = newNotes.Where(n => n.CreateTime > DateTime.Now.Subtract(TimeSpan.FromDays(7))).Sum(n => n.Amount).ToString("0.##") + " spent last 7 days"
                             },
                             // For spacing
                             new TileText()
                             {
-                                Style = TileTextStyle.Title,
+                                Style = TileTextStyle.Body,
                                 Text = newNotes.Where(n => n.CreateTime > DateTime.Now.Subtract(DateTime.Now - DateTime.Today)).Sum(n => n.Amount).ToString("0.##") + " spent today"
                             },
                         }

@@ -66,13 +66,13 @@
         </ControlTemplate>
     </Page.Resources>
 
-    <!--<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" 
+    <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" 
                CompactPaneLength="0" OpenPaneLength="300" PaneBackground="{ThemeResource SystemControlBackgroundAccentBrush}">
         <SplitView.Pane>
             <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled">
                 <StackPanel>
                     <mainPage:ExpenseCollectionList DataContext="{Binding }" TabIndex="0"/>
-                    <Grid Height="52" Margin="0,1,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid Height="51.5" Margin="0,1,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
                         <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="1" >
                             <Button.Content>
@@ -80,87 +80,96 @@
                             </Button.Content>
                         </Button>
                     </Grid>
+                    <ListView  AllowDrop="True" CanDragItems="True" CanReorderItems="True" Style="{StaticResource StretchListView}" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" ItemTemplate="{StaticResource ExpenseCollectionTemplate}" ItemsSource="{Binding ExpenseCollections}" SelectedItem="{Binding ActiveCollection, Mode=TwoWay}" ItemContainerStyle="{StaticResource StretchListViewItemStyle}" ItemClick="ListView_ItemClick_1"  />
                 </StackPanel>
             </ScrollViewer>
         </SplitView.Pane>
-        <SplitView.Content>-->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid Margin="0,53,0,0">
-            <ScrollViewer x:Name="ExpenseCollectionsOverview" Grid.Column="0" Style="{StaticResource AccentAlwaysScrollViewer}" Visibility="Collapsed">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <mainPage:ExpenseCollectionsOverview Grid.Row="0"  />
-                    <Grid Height="52" Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <TextBox x:Name="AddNewExpenseCollectionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Seite..." Text="{Binding NewExpenseCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-                        <Button Margin="0,0,1.5,0" Style="{StaticResource AddNewExpenseButton}" BorderThickness="0" Command="{Binding AddExpenseCollectionCommand}" TabIndex="1" >
-                            <Button.Content>
-                                <SymbolIcon Symbol="Add" />
-                            </Button.Content>
-                        </Button>
+        <SplitView.Content>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0,53,0,0">
+                    <Grid>
+                        <ScrollViewer Grid.Column="0" Style="{StaticResource AlwaysScrollViewer}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding ActiveCollection.Name}" Style="{ThemeResource HeaderTextBlock}" />
+                                    <Button Grid.Column="1" Style="{StaticResource EditExpenseCollectionButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="EditCollectionButton_Tapped" >
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Edit" />
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+                                <Grid x:Name="EditCollectionGrid" Height="52" Margin="0,0,0,10" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Background="{ThemeResource DisApprooveRed}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="Button_Tapped" >
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Delete" />
+                                        </Button.Content>
+                                    </Button>
+                                    <TextBox TabIndex="0" Grid.Column="1" Text="{Binding ActiveCollection.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewExpenseTextBox}" />
+                                    <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Command="{Binding SaveExpenseCollectionCommand}" CommandParameter="{Binding ActiveCollection}">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Save" />
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+                                <ListView IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled"  Style="{StaticResource StretchListView}" ItemTemplate="{StaticResource ExpenseTemplate}" ItemsSource="{Binding ActiveCollection.Expenses}" ItemContainerStyle="{StaticResource StretchListViewItemStyle}" ItemClick="ListView_ItemClick"  />
+
+                                <TextBlock Style="{ThemeResource SubHeaderTextBlock}">
+                            <Run Text="total:" />
+                            <Run Text="{Binding TotalExpenseAmount, Converter={StaticResource DoubleToCurrencyConverter}}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </ScrollViewer>
+
                     </Grid>
                 </Grid>
-            </ScrollViewer>
-            <ScrollViewer x:Name="ActiveExpenseCollection" Grid.Column="0" Style="{StaticResource AlwaysScrollViewer}">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding ActiveCollection.Name}" Style="{ThemeResource HeaderTextBlock}" />
-                        <Button Grid.Column="1" Style="{StaticResource EditExpenseCollectionButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="EditCollectionButton_Tapped" >
-                            <Button.Content>
-                                <SymbolIcon Symbol="Edit" />
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                    <Grid x:Name="EditCollectionGrid" Height="52" Margin="0,0,0,10" Visibility="Collapsed">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Background="{ThemeResource DisApprooveRed}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Tapped="Button_Tapped" >
-                            <Button.Content>
-                                <SymbolIcon Symbol="Delete" />
-                            </Button.Content>
-                        </Button>
-                        <TextBox TabIndex="0" Grid.Column="1" Text="{Binding ActiveCollection.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewExpenseTextBox}" />
-                        <Button Grid.Column="2"  Background="{ThemeResource ApprooveGreen}" Style="{StaticResource AddNewExpenseButton}" Template="{StaticResource EditExpenseButtonTemplate}" Command="{Binding SaveExpenseCollectionCommand}" CommandParameter="{Binding ActiveCollection}">
-                            <Button.Content>
-                                <SymbolIcon Symbol="Save" />
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-
-                    <mainPage:ExpenseList DataContext="{Binding ActiveCollection.Expenses}" />
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-        <Grid Height="52.5" VerticalAlignment="Top" >
-            <TextBox x:Name="AddNewExpenseTextBox"  Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="neue Notiz..." Text="{Binding NewExpense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" />
-            <Button Style="{StaticResource AddNewExpenseButton}" Command="{Binding AddExpenseCommand}" TabIndex="1">
-                <Button.Content>
-                    <SymbolIcon Symbol="Add" />
-                </Button.Content>
-            </Button>
-        </Grid>
-        <userControls:ProgressUserControl VerticalAlignment="Top" />
-        <!--<Grid VerticalAlignment="Bottom" MaxHeight="{Binding HeightOfDevice, Source={StaticResource ResolutionHelper}}" Margin="0,50,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="1">
+                <Grid Height="52.5" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" x:Name="NewExpenseAmountTextBox" Style="{StaticResource AddNewExpenseTextBox}" InputScope="Number" Text="{Binding NewExpenseAmount, Mode=TwoWay, Converter={StaticResource DoubleToCurrencyConverter}, UpdateSourceTrigger=PropertyChanged}" TabIndex="1" KeyDown="AmountTextBox_KeyDown" TextChanged="NewExpenseAmountTextBox_OnTextChanged" />
+                    <Border Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource TextBoxBorderThemeBrush}" />
+                    <TextBox Grid.Column="2" x:Name="NewExpenseDescriptionTextBox" Style="{StaticResource AddNewExpenseTextBox}" PlaceholderText="kurze Beschreibung" Text="{Binding NewExpenseDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" KeyDown="TextBox_KeyDown" LostFocus="NewExpenseDescriptionTextBox_LostFocus" />
+                    <Border Grid.Column="3" Grid.ColumnSpan="2" BorderThickness="0,1,1,1" BorderBrush="{ThemeResource TextBoxBorderThemeBrush}" />
+                    <Button Grid.Column="3" Style="{StaticResource AddNewExpenseButton}" TabIndex="3">
+                        <Button.Content>
+                            <SymbolIcon Symbol="CalendarDay" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <DatePickerFlyout Date="{Binding NewExpenseTime, Mode=TwoWay}" />
+                        </Button.Flyout>
+                    </Button>
+                    <Button Grid.Column="4" Style="{StaticResource AddNewExpenseButton}" Command="{Binding AddExpenseCommand}" TabIndex="4">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Add" />
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                <userControls:ProgressUserControl VerticalAlignment="Top" />
+                <!--<Grid VerticalAlignment="Bottom" MaxHeight="{Binding HeightOfDevice, Source={StaticResource ResolutionHelper}}" Margin="0,50,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="1">
             <ScrollViewer Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="ExpenseCollectionScrollViewer" Height="{Binding ElementName=ExpenseCollectionList, Path=ActualHeight}" VerticalAlignment="Bottom">
                 <mainPage:ExpenseCollectionList Background="{ThemeResource SystemControlBackgroundAccentBrush}" x:Name="ExpenseCollectionList" DataContext="{Binding ExpenseCollections}" />
             </ScrollViewer>
         </Grid>-->
 
-    </Grid>
-    <!--</SplitView.Content>
-    </SplitView>-->
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
 
 
     <Page.BottomAppBar>

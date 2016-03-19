@@ -83,7 +83,7 @@ class ExpenseCollectionController implements iController
             }
             return ReturnError(LINK_INVALID);
         } catch (\Exception $ex) {
-            return ReturnError("Exception occured: " . $ex->getMessage());
+            return ReturnError("Exception occured: " . $ex->getMessage(). "\n".$ex->getTraceAsString());
         }
     }
 

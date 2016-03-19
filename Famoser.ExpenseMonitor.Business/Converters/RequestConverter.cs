@@ -15,8 +15,8 @@ namespace Famoser.ExpenseMonitor.Business.Converters
         {
             return new ExpenseRequest(action,userGuid)
             {
-                Notes = ConvertAllToNoteEntity(notes),
-                NoteCollectionGuid = collectionGuid
+                Expenses = ConvertAllToNoteEntity(notes),
+                ExpenseCollectionGuid = collectionGuid
             };
         }
 
@@ -30,7 +30,7 @@ namespace Famoser.ExpenseMonitor.Business.Converters
             return new ExpenseEntity()
             {
                  Guid = expenseModel.Guid,
-                 Content = expenseModel.Description,
+                 Description = expenseModel.Description,
                  CreateTime = expenseModel.CreateTime,
                  Amount = expenseModel.Amount
             };
@@ -40,7 +40,7 @@ namespace Famoser.ExpenseMonitor.Business.Converters
         {
             return new ExpenseCollectionRequest(action, userGuid)
             {
-                NoteCollections = ConvertAllToNoteCollectionEntity(collections)
+                ExpenseCollections = ConvertAllToNoteCollectionEntity(collections)
             };
         }
 

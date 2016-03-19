@@ -46,20 +46,20 @@ class ExpenseController implements iController
                                     $newnote = new Expense();
                                     $newnote->ExpenseCollectionId = $listId;
                                     $newnote->Guid = $note->Guid;
-                                    $newnote->Content = $note->Content;
+                                    $newnote->Description = $note->Description;
                                     $newnote->CreateTime = ConvertToDatabaseDateTime($note->CreateTime);
-                                    $newnote->IsCompleted = $note->IsCompleted;
+                                    $newnote->Amount = $note->Amount;
                                     $newExpenses[] = $newnote;
                                 } else {
-                                    $existingExpense->Content = $note->Content;
+                                    $existingExpense->Description = $note->Description;
                                     $existingExpense->CreateTime = ConvertToDatabaseDateTime($note->CreateTime);
-                                    $existingExpense->IsCompleted = $note->IsCompleted;
+                                    $existingExpense->Amount = $note->Amount;
                                     $updateExpenses[] = $existingExpense;
                                 }
                             }
                             $res = InsertAll($newExpenses);
                             $res &= UpdateAll($updateExpenses);
-                            return ReturnBoolean($res);
+                            return ReturnBoolean($res == "1");
                         }
                         return ReturnBoolean(false);
                     } else if ($obj->Action == "get") {
