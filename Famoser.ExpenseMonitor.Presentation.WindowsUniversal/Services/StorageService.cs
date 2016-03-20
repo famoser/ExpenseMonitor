@@ -90,7 +90,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services
 
         public Task<bool> SetCachedData(string data)
         {
-            return SaveToCache("data2.json", data);
+            return SaveToCache("data.json", data);
         }
 
         public Task<bool> SetUserInformations(string info)
