@@ -137,7 +137,7 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
                     _addExpenseCommand.RaiseCanExecuteChanged();
             }
         }
-        
+
         public double? TotalExpenseAmount
         {
             get { return ActiveCollection?.Expenses.Sum(e => e.Amount); }
@@ -182,10 +182,10 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
                     Amount = NewExpenseAmount.Value,
                     ExpenseCollection = ActiveCollection
                 };
+                SetExpenseDefaults();
                 await _expenseRepository.Save(newExpense);
                 RaisePropertyChanged(() => TotalExpenseAmount);
 
-                SetExpenseDefaults();
                 Messenger.Default.Send(Messages.ExpenseChanged);
             }
         }
@@ -203,17 +203,8 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         private void SetExpenseDefaults()
         {
             NewExpenseDate = DateTime.Now;
-            var lastExpense = ActiveCollection?.Expenses.FirstOrDefault();
-            if (lastExpense != null)
-            {
-                NewExpenseDescription = lastExpense.Description;
-                NewExpenseAmount = lastExpense.Amount;
-            }
-            else
-            {
-                NewExpenseAmount = null;
-                NewExpenseDescription = null;
-            }
+            NewExpenseAmount = null;
+            NewExpenseDescription = null;
         }
 
         private readonly RelayCommand _addExpenseCollectionCommand;
@@ -301,7 +292,8 @@ namespace Famoser.ExpenseMonitor.View.ViewModel
         public ExpenseCollectionModel ActiveCollection
         {
             get { return _activeCollection; }
-            set {
+            set
+            {
                 if (Set(ref _activeCollection, value))
                 {
                     RaisePropertyChanged(() => TotalExpenseAmount);

@@ -33,7 +33,7 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
                 ViewModel.RefreshCommand.Execute(null);
         }
 
-        private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter && e.KeyStatus.RepeatCount == 1)
             {
@@ -46,7 +46,10 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages
                 else if (tb == NewExpenseDescriptionTextBox)
                 {
                     if (ViewModel?.AddExpenseCommand.CanExecute(null) == true)
+                    {
                         ViewModel.AddExpenseCommand.Execute(null);
+                        NewExpenseAmountTextBox.Focus(FocusState.Pointer);
+                    }
                 }
             }
         }
