@@ -92,7 +92,6 @@
                                 <Run Text="github"/>
                             </Hyperlink>
                     </TextBlock>
-
                 </StackPanel>
             </ScrollViewer>
         </SplitView.Pane>

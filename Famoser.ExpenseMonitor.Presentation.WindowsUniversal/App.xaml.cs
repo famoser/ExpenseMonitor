@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Pages;
 using Famoser.ExpenseMonitor.Presentation.WindowsUniversal.Services;
+using Famoser.Telemetry.UniversalWindows;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 
@@ -29,6 +30,8 @@ namespace Famoser.ExpenseMonitor.Presentation.WindowsUniversal
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            FamoserTelemetry.Initialize("https://api.telemetry.famoser.ch/1.0/submit", "2c8d148e-6800-49b5-af10-39905d32ea5c");
         }
 
         /// <summary>
