@@ -81,6 +81,18 @@
                         </Button>
                     </Grid>
                     <ListView TabIndex="9" AllowDrop="True" CanDragItems="True" CanReorderItems="True" Style="{StaticResource StretchListView}" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" ItemTemplate="{StaticResource ExpenseCollectionTemplate}" ItemsSource="{Binding ExpenseCollections}" SelectedItem="{Binding ActiveCollection, Mode=TwoWay}" ItemContainerStyle="{StaticResource StretchListViewItemStyle}" ItemClick="ListView_ItemClick_1"  />
+                    <TextBlock FontFamily="Segoe UI" Margin="10" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Run Text="made with &#x2661; by" />
+                            <Hyperlink NavigateUri="http://famoser.ch" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Run Text="famoser"/>
+                            </Hyperlink>
+                            <LineBreak />
+                            <Run Text="source code on" />
+                            <Hyperlink NavigateUri="https://github.com/famoser/ExpenseMonitor" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Run Text="github"/>
+                            </Hyperlink>
+                    </TextBlock>
+
                 </StackPanel>
             </ScrollViewer>
         </SplitView.Pane>

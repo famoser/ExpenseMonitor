@@ -37,7 +37,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
+                    LogHelper.Instance.LogException(ex, this);
                     return new ExpenseResponse()
                     {
                         ErrorMessage = "Unserialisation failed for Description " + resp.Response
@@ -62,7 +62,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Instance.Log(LogLevel.ApiError, this, "GetExpense failed with response: " + resp.Response, ex);
+                    LogHelper.Instance.LogException(ex, this);
                     return new ExpenseCollectionResponse()
                     {
                         ErrorMessage = "Unserialisation failed for Description " + resp.Response
@@ -100,7 +100,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DownloadStringAsync failed for url " + url, ex);
+                LogHelper.Instance.LogException(ex, this);
                 return new StringReponse()
                 {
                     ErrorMessage = "Request failed for url " + url
@@ -138,15 +138,14 @@ namespace Famoser.ExpenseMonitor.Data.Services
                         else
                         {
                             resp = new BooleanResponse() { ErrorMessage = respo };
-                            LogHelper.Instance.Log(LogLevel.ApiError, this,
-                                "Post failed for url " + url + " with json " + content + " Reponse recieved: " + respo);
+                            LogHelper.Instance.Log(LogLevel.Error, "Post failed for url " + url + " with json " + content + " Reponse recieved: " + respo, this);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "Post failed for url " + url, ex);
+                LogHelper.Instance.LogException(ex, this);
                 resp = new BooleanResponse() { ErrorMessage = "Post failed for url " + url };
             }
             return resp;
@@ -183,7 +182,7 @@ namespace Famoser.ExpenseMonitor.Data.Services
             }
             catch (Exception ex)
             {
-                LogHelper.Instance.Log(LogLevel.Error, this, "DownloadStringAsync failed for url " + url, ex);
+                LogHelper.Instance.LogException(ex, this);
                 return new StringReponse()
                 {
                     ErrorMessage = "Request failed for url " + url
