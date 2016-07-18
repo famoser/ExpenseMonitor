@@ -1,2 +1,1 @@
-MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\x86\Release\Upload\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_x86.appx
-SymbolPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\AppPackages\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_x86.appxsym
+MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\x86\Release\Upload\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_x86.appx

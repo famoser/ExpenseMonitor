@@ -1,7 +1,6 @@
-MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_ARM.appx
-SymbolPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\AppPackages\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_Test\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_ARM.appxsym
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_language-en.appx
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_scale-100.appx
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_scale-125.appx
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_scale-150.appx
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_scale-400.appx
+MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_ARM.appx
+SymbolPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\AppPackages\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_Test\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_ARM.appxsym
+ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_scale-100.appx
+ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_scale-125.appx
+ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_scale-150.appx
+ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_scale-400.appx

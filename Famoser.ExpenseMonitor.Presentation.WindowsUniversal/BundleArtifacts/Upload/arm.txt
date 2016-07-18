@@ -1,6 +1,4 @@
-MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Upload\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_ARM.appx
-SymbolPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\AppPackages\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.1.22.0_ARM.appxsym
-ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\_language-en.appx
+MainPackage=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\bin\ARM\Release\Upload\Famoser.ExpenseMonitor.Presentation.WindowsUniversal_1.2.25.0_ARM.appx
 ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\_scale-100.appx
 ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\_scale-125.appx
 ResourcePack=D:\Repos\ExpenseMonitor\Famoser.ExpenseMonitor.Presentation.WindowsUniversal\_scale-150.appx
